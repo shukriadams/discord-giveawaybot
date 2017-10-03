@@ -7,6 +7,16 @@ Heavily inspired by https://github.com/jagrosh/GiveawayBot
 - Node 7 or greater.
 - Yarn (or use npm if you prefer that)
 
+## Create a bot on Discord
+
+- clone this repo 
+- copy *examplesSettings.json* to a new file called *settings.json*
+- go to https://discordapp.com/developers/applications/me
+- click on "new app"
+- follow the instructions and create your app, normally you need to add only a name
+- after creating your app, click on "create a bot user", this converts your app to a bot (a good thing)
+- on the bot's config page, click on "click to reveal token", copy this, and paste it into the token field of your local settings.json file
+
 ## Setup
 
 If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
@@ -38,16 +48,6 @@ You can host your bot on any internet-connected machine on which you can run the
     node index
 
 is all you need to setup/start it. I recommend a Linux host with PM2 to ensure your Node process stays up.
-
-
-## Create a bot on Discord
-
-- in the project, make a copy of examplesSettings.json, and name this settings.json
-- go to https://discordapp.com/developers/applications/me
-- click on "new app"
-- follow the instructions and create your app, normally you need to add only a name
-- after creating your app, click on "create a bot user", this converts your app to a bot (a good thing)
-- on the bot's config page, click on "click to reveal token", copy this, and paste it into the token field of your local settings.json file
 
 ## Add your bot to your Discord server
 
