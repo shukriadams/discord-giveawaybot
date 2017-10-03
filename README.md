@@ -51,8 +51,8 @@ is all you need to setup/start it. I recommend a Linux host with PM2 to ensure y
 
 ## Add your bot to your Discord server
 
-- back on your app's Discord config page, copy your bot's client id and paste it into this url, replacing <CLIENT ID>
-  https://discordapp.com/oauth2/authorize?&client_id=<CLIENT ID>&scope=bot&permissions=0
+- back on your app's Discord config page, copy your bot's client id and paste it into this url, replacing YOURCLIENTID
+  https://discordapp.com/oauth2/authorize?&client_id=YOURCLIENTID&scope=bot&permissions=0
 - then navigate to that url in a browser. You'll get the option to add it to your Discord server. After doing this you should see your bot as a user on your server.
 - Your bot needs to know which channel you'll be broadcasting giveaways in. Go to the channel you want to use and write @BOTNAME channel where BOTNAME is whatever name you gave your bot.
 - That's it, you're set to go.
