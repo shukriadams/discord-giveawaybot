@@ -1,0 +1,11 @@
+/.idea
+/node_modules
+/vagrant/.vagrant
+/yarn.lock
+/yarn-error.log
+/vagrant/ubuntu-xenial-16.04-cloudimg-console.log
+/__store
+/__logs
+/tests/__store
+/settings.json
+/tests/__logs
