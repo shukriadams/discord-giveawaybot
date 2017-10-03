@@ -16,7 +16,7 @@ module.exports = async function (client, message){
                 reply = 'Nothing to report!'
             }
 
-            message.author.send(reply);
+            message.author.send('Currently disabled');
             resolve(codes.MESSAGE_ACCEPTED)
         } catch (ex){
             reject(ex);

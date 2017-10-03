@@ -173,7 +173,7 @@ class Store {
         date.setDate(date.getDate() - 14);
 
         let records = this._table.find({ '$and' : [
-            { 'created' : { '$lt' : date.getTime() } }
+            { 'ended' : { '$lt' : date.getTime() } }
         ]});
 
         for (let record of records)
