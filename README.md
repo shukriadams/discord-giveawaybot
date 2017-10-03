@@ -4,12 +4,12 @@ Heavily inspired by https://github.com/jagrosh/GiveawayBot
 
 ## Requirements
 
-Node 7 or greater.
-Yarn (or use npm if you prefer that)
+- Node 7 or greater.
+- Yarn (or use npm if you prefer that)
 
 ## Setup
 
-If you use Vagrant, the included vagrant script will start an Ubunty VM ready to run the bot.
+If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
 
     cd /vagrant
     vagrant up
@@ -20,6 +20,11 @@ Then in the VM run
     yarn --no-bin-links
     node index
 
+If you want to run it directly on your machine, install Node 7 or higher. Then run 
+
+    npm install
+    node index
+
 ## Tests
 
     cd /tests
@@ -28,6 +33,12 @@ Then in the VM run
 ## Hosting your bot
 
 You can host your bot on any internet-connected machine on which you can run the bot with Nodejs.
+
+    npm install
+    node index
+
+is all you need to setup/start it. I recommend a Linux host with PM2 to ensure your Node process stays up.
+
 
 ## Create a bot on Discord
 
