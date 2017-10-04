@@ -51,8 +51,8 @@ module.exports = async function (client, message, messageText){
             settings.save();
 
             message.author.send(`${hi(brackets.length)} brackets were set.`);
-            resolve(codes.MESSAGE_ACCEPTED);
             infoLog.info(`User ${message.author.username} set brackets to ${args[1]}.`);
+            resolve(codes.MESSAGE_ACCEPTED);
 
         } catch (ex){
             reject(ex);

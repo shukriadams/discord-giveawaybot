@@ -26,8 +26,8 @@ module.exports = async function (client, message){
             settings.save();
 
             message.reply(`The channel ${hi(message.channel.name)} will now be used for giveaways.`);
-            resolve(codes.MESSAGE_ACCEPTED);
             infoLog.info(`User ${message.author.username} set active giveaway channel to ${message.channel.name}.`);
+            resolve(codes.MESSAGE_ACCEPTED);
 
         } catch (ex){
             reject(ex);
