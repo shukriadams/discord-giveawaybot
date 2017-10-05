@@ -1,15 +1,11 @@
 // list : list everything
-let getTime = require('./../utils/getTime'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    timeHelper = require('./../utils/timeHelper'),
+let timeHelper = require('./../utils/timeHelper'),
     bracketHelper = require('./../utils/bracketHelper'),
     codes = require('./../utils/codes'),
     Store = require('./../utils/store'),
     settings = require('./../utils/settings').instance();
 
 module.exports = async function (client, message){
-    return new Promise(async function(resolve, reject){
-        try {
 
             let store = await Store.instance(),
                 winnings = store.getWinnings(message.author.id),
@@ -35,11 +31,6 @@ module.exports = async function (client, message){
             }
 
             await message.author.send(reply);
-            resolve(codes.MESSAGE_ACCEPTED);
+            return codes.MESSAGE_ACCEPTED;
 
-        } catch (ex){
-            reject(ex);
-        }
-
-    });
 };

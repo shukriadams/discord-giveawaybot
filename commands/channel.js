@@ -8,30 +8,24 @@ let settings = require('./../utils/settings').instance(),
     permissionHelper = require('./../utils/permissionHelper');
 
 module.exports = async function (client, message){
-    return new Promise(async function(resolve, reject){
-        try {
 
-            let isAdmin = await permissionHelper.isAdmin(client, message.author);
-            if (!isAdmin){
-                message.author.send(messages.permissionError);
-                return resolve(codes.MESSAGE_REJECTED_PERMISSION);
-            }
+    let isAdmin = await permissionHelper.isAdmin(client, message.author);
+    if (!isAdmin){
+        message.author.send(messages.permissionError);
+        return codes.MESSAGE_REJECTED_PERMISSION;
+    }
 
-            if (message.channel.type === 'dm'){
-                message.author.send('Only a public channel can be used for giveaways.');
-                return resolve(codes.MESSAGE_REJECTED_INVALIDCHANNEL);
-            }
+    if (message.channel.type === 'dm'){
+        message.author.send('Only a public channel can be used for giveaways.');
+        return codes.MESSAGE_REJECTED_INVALIDCHANNEL;
+    }
 
-            settings.values.giveawayChannelId = message.channel.id;
-            settings.save();
+    settings.values.giveawayChannelId = message.channel.id;
+    settings.save();
 
-            message.reply(`The channel ${hi(message.channel.name)} will now be used for giveaways.`);
-            infoLog.info(`User ${message.author.username} set active giveaway channel to ${message.channel.name}.`);
-            resolve(codes.MESSAGE_ACCEPTED);
+    message.reply(`The channel ${hi(message.channel.name)} will now be used for giveaways.`);
+    infoLog.info(`User ${message.author.username} set active giveaway channel to ${message.channel.name}.`);
 
-        } catch (ex){
-            reject(ex);
-        }
+    return codes.MESSAGE_ACCEPTED;
 
-    });
 };

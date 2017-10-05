@@ -7,44 +7,37 @@ let getTime = require('./../utils/getTime'),
     steamUrl = require('./../utils/steamUrl');
 
 module.exports = async function (client, message, messageText){
-    return new Promise(async function(resolve, reject){
-        try {
-            let args = messageText.split(' ');
+    let args = messageText.split(' ');
 
-            // validate input
-            if (args.length !== 4 && args.length !== 5){
-                message.author.send(`Invalid queue command. Expected : ${hi('queue [start time] [duration time] [Steam link/id] [gamekey]')}. Key is optional. ${message.timeFormat}`);
-                return resolve(codes.MESSAGE_REJECTED_INVALIDARGUMENTS);
-            }
+    // validate input
+    if (args.length !== 4 && args.length !== 5){
+        message.author.send(`Invalid queue command. Expected : ${hi('queue [start time] [duration time] [Steam link/id] [gamekey]')}. Key is optional. ${message.timeFormat}`);
+        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
+    }
 
-            // second and third arg must be time
-            let start = getTime(args[1]),
-                duration = getTime(args[2]);
+    // second and third arg must be time
+    let start = getTime(args[1]),
+        duration = getTime(args[2]);
 
-            if(!start){
-                message.author.send(`Start time ${hi(args[1])} is invalid. ${messages.timeFormat}`);
-                return resolve(codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT);
-            }
+    if(!start){
+        message.author.send(`Start time ${hi(args[1])} is invalid. ${messages.timeFormat}`);
+        return codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT;
+    }
 
-            if (!duration){
-                message.author.send(`Duration time ${hi(args[2])} is invalid. ${messages.timeFormat}`);
-                return resolve(codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT);
-            }
+    if (!duration){
+        message.author.send(`Duration time ${hi(args[2])} is invalid. ${messages.timeFormat}`);
+        return codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT;
+    }
 
-            let steamUrlInfo = steamUrl.getInfo(args[3].toLowerCase());
+    let steamUrlInfo = steamUrl.getInfo(args[3].toLowerCase());
 
-            let code = null;
-            if (args.length === 5){
-                code = args[4];
-            }
+    let code = null;
+    if (args.length === 5){
+        code = args[4];
+    }
 
-            // message, start, duration, steamUrlInfo, code
-            let result = await createGiveaway(message, client, start, duration, steamUrlInfo, code);
-            resolve(result);
+    // message, start, duration, steamUrlInfo, code
+    let result = await createGiveaway(message, client, start, duration, steamUrlInfo, code);
+    return result;
 
-        } catch (ex){
-            reject(ex);
-        }
-
-    });
 };

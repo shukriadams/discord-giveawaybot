@@ -15,67 +15,58 @@ let Store = require('./../utils/store'),
     permissionHelper = require('./../utils/permissionHelper');
 
 module.exports = async function (client, message, messageText){
-    return new Promise(async function(resolve, reject){
 
-        try {
+    let store = await Store.instance(),
+        args = messageText.split(' ');
 
-            let store = await Store.instance(),
-                args = messageText.split(' ');
+    if (args.length !== 2){
+        message.author.send(`Invalid cancel command. Expected : ${hi('cancel [giveawayid]')}. You can get giveawayids by using the ${hi('list')} command.`);
+        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
+    }
 
-            if (args.length !== 2){
-                message.author.send(`Invalid cancel command. Expected : ${hi('cancel [giveawayid]')}. You can get giveawayids by using the ${hi('list')} command.`);
-                return resolve(codes.MESSAGE_REJECTED_INVALIDARGUMENTS);
-            }
+    let giveawayId = args[1];
 
-            let giveawayId = args[1];
+    // ensure int
+    if (isNaN(giveawayId)){
+        message.author.send(`${hi(giveawayId)} is not a valid id.`);
+        return codes.MESSAGE_REJECTED_INVALIDINT;
+    }
 
-            // ensure int
-            if (isNaN(giveawayId)){
-                message.author.send(`${hi(giveawayId)} is not a valid id.`);
-                return resolve(codes.MESSAGE_REJECTED_INVALIDINT);
-            }
+    let giveaway = store.get(giveawayId);
+    if (!giveaway){
+        message.author.send(`Giveaway with id ${hi(giveawayId)} does not exist.`);
+        return codes.MESSAGE_REJECTED_GIVEAWAYNOTFOUND;
+    }
 
-            let giveaway = store.get(giveawayId);
-            if (!giveaway){
-                message.author.send(`Giveaway with id ${hi(giveawayId)} does not exist.`);
-                return resolve(codes.MESSAGE_REJECTED_GIVEAWAYNOTFOUND);
-            }
+    // if user is giveaway creator or an admin, allow cancel
+    let isAdmin = await permissionHelper.isAdmin(client, message.author);
+    if (giveaway.ownerId !== message.author.id && !isAdmin){
+        message.author.send(messages.permissionError);
+        return codes.MESSAGE_REJECTED_PERMISSION;
+    }
 
-            // if user is giveaway creator or an admin, allow cancel
-            let isAdmin = await permissionHelper.isAdmin(client, message.author);
-            if (giveaway.ownerId !== message.author.id && !isAdmin){
-                message.author.send(messages.permissionError);
-                return resolve(codes.MESSAGE_REJECTED_PERMISSION);
-            }
+    if (giveaway.status !== 'pending' && giveaway.status !== 'open'){
+        message.author.send('Cancel failed - that giveaway has already finished.');
+        return codes.MESSAGE_REJECTED_GIVEAWAYCLOSED;
+    }
 
-            if (giveaway.status !== 'pending' && giveaway.status !== 'open'){
-                message.author.send('Cancel failed - that giveaway has already finished.');
-                return resolve(codes.MESSAGE_REJECTED_GIVEAWAYCLOSED);
-            }
+    giveaway.status = 'cancelled';
+    giveaway.ended = new Date().getTime();
+    store.update(giveaway);
 
-            giveaway.status = 'cancelled';
-            giveaway.ended = new Date().getTime();
-            store.update(giveaway);
+    // find and delete giveaway message
+    let channel = channelProvider(client, settings);
+    if (channel) {
+        let giveAwayMessage = await recordFetch.fetchMessage(channel, giveaway.startMessageId);
+        if (giveAwayMessage)
+            giveAwayMessage.delete();
 
-            // find and delete giveaway message
-            let channel = channelProvider(client, settings);
-            if (channel) {
-                let giveAwayMessage = await recordFetch.fetchMessage(channel, giveaway.startMessageId);
-                if (giveAwayMessage)
-                    giveAwayMessage.delete();
+        let urlMessage = await recordFetch.fetchMessage(channel, giveaway.urlMessageId);
+        if (urlMessage)
+            urlMessage.delete();
+    }
 
-                let urlMessage = await recordFetch.fetchMessage(channel, giveaway.urlMessageId);
-                if (urlMessage)
-                    urlMessage.delete();
-            }
-
-            message.author.send('Giveaway cancelled.');
-            infoLog.info(`User ${message.author.username} cancelled giveaway ${giveawayId} - ${giveaway.steamName}.`);
-            resolve(codes.MESSAGE_ACCEPTED);
-
-        } catch (ex){
-            reject(ex);
-        }
-
-    });
+    message.author.send('Giveaway cancelled.');
+    infoLog.info(`User ${message.author.username} cancelled giveaway ${giveawayId} - ${giveaway.steamName}.`);
+    return codes.MESSAGE_ACCEPTED;
 };
