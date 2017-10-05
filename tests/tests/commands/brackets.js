@@ -21,7 +21,7 @@ test('bracket command', function(testBase){
         assert.equal(codes.MESSAGE_REJECTED_PERMISSION, result);
     });
 
-    it('should reject a brackets command if too few args given', async function() {
+    it('should accept a brackets command if no args given', async function() {
 
         // make user admin
         let member = new GuildMember();
@@ -33,7 +33,7 @@ test('bracket command', function(testBase){
         message.content += 'brackets';
 
         let result = await testBase.client.raiseMessageEvent(message);
-        assert.equal(codes.MESSAGE_REJECTED_INVALIDARGUMENTS, result);
+        assert.equal(codes.MESSAGE_ACCEPTED_BRACKETSLIST, result);
     });
 
     it('should reject a brackets command if too many args given', async function() {

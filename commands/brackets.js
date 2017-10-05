@@ -11,7 +11,6 @@ module.exports = async function (client, message, messageText){
     return new Promise(async function(resolve, reject){
         try
         {
-            // todo : force to text channel
             let isAdmin = await permissionHelper.isAdmin(client, message.author);
             if (!isAdmin){
                 message.author.send(messages.permissionError);
@@ -19,7 +18,24 @@ module.exports = async function (client, message, messageText){
             }
 
             let args = messageText.split(' ');
-            if (args.length !== 2){
+
+            // list brackets
+            if (args.length === 1){
+                let reply = '';
+
+                if (!settings.values.brackets || !settings.values.brackets.length){
+                    reply = 'No brackets set.';
+                } else {
+                    reply += 'Current brackets :\n';
+                    for (let bracket of settings.values.brackets)
+                        reply += `${bracket.min} to ${bracket.max}\n`;
+                }
+
+                message.author.send(reply);
+                return resolve(codes.MESSAGE_ACCEPTED_BRACKETSLIST);
+            }
+
+            if (args.length > 2){
                 message.author.send(`Invalid brackets command. Expected : ${hi('brackets [price]-[price]..')}. \n` +
                     `Example ${hi('brackets 0-50-100-200')} creates 3 brackets 0-50, 50-100, & 100-200.`);
                 return resolve(codes.MESSAGE_REJECTED_INVALIDARGUMENTS);

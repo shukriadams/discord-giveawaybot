@@ -95,6 +95,10 @@ below 20USD or above 30USD.
 
 Prices are always in USD.
 
+For a list of current brackets, use
+
+    brackets
+
 ### cancel
 
 Admins or the creator of a giveaway can cancel that giveaway if it hasn't started yet, or is in progress.
