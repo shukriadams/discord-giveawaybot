@@ -170,7 +170,7 @@ class Store {
     clean(){
         let date = new Date();
 
-        date.setDate(date.getDate() - 14);
+        date.setDate(date.getDate() - settings.values.deleteGiveawaysAfter);
 
         let records = this._table.find({ '$and' : [
             { 'ended' : { '$gt' : 0 } },

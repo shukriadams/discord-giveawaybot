@@ -13,6 +13,17 @@ class Settings {
         let settingsPath = path.join( __dirname, '../', 'settings.json');
         if (fs.existsSync(settingsPath)){
             this.values = jsonfile.readFileSync(settingsPath);
+
+            // assign default settings
+            // nr of days after which old giveaways are automatically deleted
+            if (this.values.deleteGiveawaysAfter === undefined)
+                this.values.deleteGiveawaysAfter = 14;
+
+            if (this.values.winningCooldownDays === undefined)
+                this.values.winningCooldownDays = 3;
+
+            if (this.values.joinGiveawayResponseCharacter === undefined)
+                this.values.joinGiveawayResponseCharacter = '🎉';
         }
     }
 

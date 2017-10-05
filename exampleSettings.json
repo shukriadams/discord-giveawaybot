@@ -2,5 +2,6 @@
   "token": "ADD YOUR BOT TOKEN HERE",
   "joinGiveawayResponseCharacter": "🎉",
   "giveawayRole": "Giveaways",
-  "bracketsCurrencyZone": "us"
+  "bracketsCurrencyZone": "us",
+  "winningCooldownDays" : 3
 }

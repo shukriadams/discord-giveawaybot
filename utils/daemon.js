@@ -16,7 +16,6 @@ let Store = require('./store'),
     CronJob = require('cron').CronJob;
 
 module.exports = async function (){
-    let joinGiveawayResponseCharacter = settings.values.joinGiveawayResponseCharacter || '🎉';
 
     /**
      * Constructs a rich embed for a giveaway message
@@ -31,7 +30,7 @@ module.exports = async function (){
                 name: client.user.username,
             },
             title: `:mega: Giveaway ${giveaway.steamName} :mega:`,
-            description: `React with ${joinGiveawayResponseCharacter} to enter Time remaining : ${remaining}`,
+            description: `React with ${settings.values.joinGiveawayResponseCharacter} to enter Time remaining : ${remaining}`,
             fields: [
                 {
                     name : 'Given away by',
@@ -82,7 +81,7 @@ module.exports = async function (){
                         store.update(giveaway);
 
                         // post first response
-                        giveAwayMessage.react(joinGiveawayResponseCharacter);
+                        giveAwayMessage.react(settings.values.joinGiveawayResponseCharacter);
                     }
                 }
 
@@ -109,7 +108,7 @@ module.exports = async function (){
                     // are on cooldown for the game's bracket
                     for (let reaction of giveAwayMessage.reactions.array()){
 
-                        if (reaction._emoji.name !== joinGiveawayResponseCharacter)
+                        if (reaction._emoji.name !== settings.values.joinGiveawayResponseCharacter)
                             continue;
 
                         for (let user of reaction.users.array()){
