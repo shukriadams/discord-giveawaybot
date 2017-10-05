@@ -68,7 +68,7 @@ module.exports = {
     // returns formatted date string for the time + minutes.
     // datetime can be date object, or milliseconds
     timePlusMinutes : function(datetime, minutes){
-        let time = this.timePlusMinutes(datetime, minutes);
+        let time = this.timePlusMinutesAsDate(datetime, minutes);
         return dateFormat(time, 'mmm dS h:MM');
     },
 
