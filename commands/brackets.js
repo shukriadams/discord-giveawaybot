@@ -5,9 +5,10 @@ let permissionHelper = require('./../utils/permissionHelper'),
     messages = require('./../utils/messages'),
     infoLog = require('./../utils/logger').info,
     hi = require('./../utils/highlight'),
-    settings = require('./../utils/settings').instance();
+    Settings = require('./../utils/settings');
 
 module.exports = async function (client, message, messageText){
+    let settings = Settings.instance();
     let isAdmin = await permissionHelper.isAdmin(client, message.author);
     if (!isAdmin){
         message.author.send(messages.permissionError);
@@ -23,9 +24,9 @@ module.exports = async function (client, message, messageText){
         if (!settings.values.brackets || !settings.values.brackets.length){
             reply = 'No brackets set.';
         } else {
-            reply += 'Current brackets :\n';
+            reply += 'The current price brackets are :\n';
             for (let bracket of settings.values.brackets)
-                reply += `${bracket.min} to ${bracket.max}\n`;
+                reply += `$${hi(bracket.min)} - $${hi(bracket.max)}\n`;
         }
 
         message.author.send(reply);

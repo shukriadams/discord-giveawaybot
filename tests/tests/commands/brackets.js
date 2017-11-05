@@ -2,6 +2,7 @@ let assert = require('./../../helpers/assert'),
     GuildMember = require('./../../helpers/mockGuildMember'),
     codes = require('./../../../utils/codes'),
     makeMessage = require('./../../helpers/message'),
+    Settings = require('./../../../utils/settings'),
     test = require('./../../helpers/testBase');
 
 test('bracket command', function(testBase){
@@ -23,7 +24,7 @@ test('bracket command', function(testBase){
 
     it('should accept a brackets command if no args given', async function() {
 
-        // make user admin
+        // make sure user admin
         let member = new GuildMember();
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
@@ -95,10 +96,11 @@ test('bracket command', function(testBase){
         let result = await testBase.client.raiseMessageEvent(message);
         assert.equal(codes.MESSAGE_ACCEPTED, result);
 
-        assert.equal(testBase.settings.values.brackets.length, 2);
-        assert.equal(testBase.settings.values.brackets[0].min, 0);
-        assert.equal(testBase.settings.values.brackets[0].max, 100);
-        assert.equal(testBase.settings.values.brackets[1].min, 100);
-        assert.equal(testBase.settings.values.brackets[1].max, 200);
+        let settings = Settings.instance();
+        assert.equal(settings.values.brackets.length, 2);
+        assert.equal(settings.values.brackets[0].min, 0);
+        assert.equal(settings.values.brackets[0].max, 100);
+        assert.equal(settings.values.brackets[1].min, 100);
+        assert.equal(settings.values.brackets[1].max, 200);
     });
 });

@@ -2,6 +2,7 @@ let lokijs = require('lokijs'),
     fs = require('fs-extra'),
     settings,
     path = require('path'),
+    timeHelper = require('./timeHelper'),
     bracketHelper = require('./bracketHelper'),
     cwd = require('process').cwd(),
     _instance;
@@ -19,7 +20,7 @@ class Store {
         if (!fs.existsSync(saveDir))
             fs.ensureDirSync(saveDir);
 
-        let savePath = path.join(saveDir, 'data.json');
+        let savePath = path.join(saveDir, 'giveaways.json');
 
         this.database = new lokijs(savePath, {
             autosave : true,
@@ -87,11 +88,10 @@ class Store {
 
     // gets all user winnings in last active period
     getWinnings(userId){
-        let date = new Date();
-        date.setDate(date.getDate() - settings.values.winningCooldownDays);
+        let daysAgo = timeHelper.daysAgo(settings.values.winningCooldownDays);
 
         let winningsRaw = this._table.find({ '$and' : [
-            { 'ended' : { '$gt' : date.getTime() } },
+            { ended : { '$gt' : daysAgo.getTime() } },
             { status : 'closed' },
             { winnerId : userId }
         ]});
@@ -111,8 +111,7 @@ class Store {
 
     // gets last winning in last active period for any game within the give price bracket range
     getComparableWinning(userId, gamePrice){
-        let date = new Date();
-        date.setDate(date.getDate() - settings.values.winningCooldownDays);
+        let daysAgo = timeHelper.daysAgo(settings.values.winningCooldownDays);
 
         // check if user won game in price range
         let bracket = bracketHelper.findBracketForPrice(gamePrice);
@@ -120,8 +119,8 @@ class Store {
             return null;
 
         let winningsRaw = this._table.find({ '$and' : [
-            { 'bracket' : bracketHelper.toString(bracket) },
-            { 'ended' : { '$gt' : date.getTime() } },
+            { bracket : bracketHelper.toString(bracket) },
+            { ended : { '$gt' : daysAgo.getTime() } },
             { status : 'closed' },
             { winnerId : userId }
         ]});
@@ -173,8 +172,8 @@ class Store {
         date.setDate(date.getDate() - settings.values.deleteGiveawaysAfter);
 
         let records = this._table.find({ '$and' : [
-            { 'ended' : { '$gt' : 0 } },
-            { 'ended' : { '$lt' : date.getTime() } }
+            { ended : { '$gt' : 0 } },
+            { ended : { '$lt' : date.getTime() } }
         ]});
 
         for (let record of records)

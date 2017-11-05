@@ -26,6 +26,7 @@ module.exports = {
             return null;
         }
     },
+
     fetchGuildMember : async function(client, user){
         try
         {

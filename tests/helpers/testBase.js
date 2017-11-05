@@ -13,26 +13,29 @@ module.exports = function(testName, tests){
         // inject test structures into singletons
         let Settings = require('./../../utils/settings'),
             Store = require('./../../utils/store'),
-            SteamInfo = require('./../../utils/steamInfo'),
-            Client = require('./../../utils/clientProvider');
+            SteamInfo = require('./../../utils/steamInfo');
 
-        let Bot = require('./../../bot'),
-            bot = new Bot(),
-            store = new MockStore(),
+        let store = new MockStore(),
             steamInfo = new MockSteamInfo(),
-            client = new MockClient(bot),
             settings = {
                 save : function(){ },
                 values : {
                     token : 'whatever',
-                    giveawayChannelId : 'giveawaychannel'
+                    giveawayChannelId : 'giveawaychannel',
+                    brackets : []
             }};
 
+        // set tes shims before importing bot
         SteamInfo.set(steamInfo);
         Settings.set(settings);
-        Client.set(client);
         Store.set(store);
 
+        let Bot = require('./../../bot'),
+            Client = require('./../../utils/clientProvider'),
+            bot = new Bot(),
+            client = new MockClient(bot);
+
+        Client.set(client);
         bot.start();
 
         // forces comparinator to create new data files for testing, so we don't have to trash "real" data
@@ -46,6 +49,16 @@ module.exports = function(testName, tests){
 
         beforeEach(function(done) {
             (async ()=>{
+
+                let settings = {
+                    save : function(){ },
+                    values : {
+                        token : 'whatever',
+                        giveawayChannelId : 'giveawaychannel',
+                        brackets : []
+                }};
+
+                Settings.set(settings);
                 let store = await Store.instance();
                 store.flush();
 

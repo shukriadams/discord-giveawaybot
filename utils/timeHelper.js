@@ -80,12 +80,20 @@ module.exports = {
         return new Date(datetime.getTime() + minutes * 60000);
     },
 
+    ///
     daysSince : function(datetime){
         if (typeof datetime === 'number')
             datetime = new Date(datetime);
 
         let elapsed = new Date().getTime() - datetime.getTime();
         return Math.floor(elapsed / (1000 * 60 * 60 * 24)); // convert elapsed to minutes
+    },
+
+    // gets a date value of the date x days ago
+    daysAgo: function(daysAgo){
+        let date = new Date();
+        date.setDate(date.getDate() - daysAgo);
+        return date;
     },
 
     // gets minutes (integer) since the given time. datetime can be a date object, or milliseconds

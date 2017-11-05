@@ -1,7 +1,7 @@
 /**
  * Common logic for start and queue commands. Creates a giveaway.
  */
-let settings = require('./settings').instance(),
+let Settings = require('./settings'),
     permissionHelper = require('./permissionHelper'),
     bracketHelper = require('./bracketHelper'),
     SteamInfo = require('./steamInfo'),
@@ -10,6 +10,7 @@ let settings = require('./settings').instance(),
     Store = require('./store');
 
 module.exports = async function create(message, client, start, duration, steamUrlInfo, code){
+    let settings = Settings.instance();
     let steamInfo = SteamInfo.instance();
     let store = await Store.instance();
 
@@ -39,6 +40,7 @@ module.exports = async function create(message, client, start, duration, steamUr
         startMinutes :  start ? start.minutes : null,
         participants : [],
         rejectedWinners : [],
+        cooldownUsers: [],
         code : code ? code : null,
         created : new Date().getTime(),
         lastUpdated : new Date().getTime(),

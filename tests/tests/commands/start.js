@@ -18,7 +18,7 @@ test('start command', function(testBase){
     });
 
 
-    it('should reject a start command with too few args', async function() {
+    it('should reject a start command with too many args', async function() {
         let message = makeMessage(testBase.client.user.id);
         message.content += 'start ab cd ef';
 

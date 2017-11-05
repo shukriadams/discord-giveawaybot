@@ -8,7 +8,7 @@ let Store = require('./../utils/store'),
     codes = require('./../utils/codes'),
     recordFetch = require('./../utils/recordFetch'),
     channelProvider = require('./../utils/channelProvider'),
-    settings = require('./../utils/settings').instance(),
+    Settings = require('./../utils/settings'),
     messages = require('./../utils/messages'),
     infoLog = require('./../utils/logger').info,
     hi = require('./../utils/highlight'),
@@ -17,6 +17,7 @@ let Store = require('./../utils/store'),
 module.exports = async function (client, message, messageText){
 
     let store = await Store.instance(),
+        settings = Settings.instance(),
         args = messageText.split(' ');
 
     if (args.length !== 2){

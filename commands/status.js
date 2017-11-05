@@ -1,11 +1,13 @@
-let state = require('./../utils/state').instance(),
+let State = require('./../utils/state'),
     permissionHelper = require('./../utils/permissionHelper'),
     messages = require('./../utils/messages'),
     codes = require('./../utils/codes');
 
 module.exports = async function (client, message){
 
-    let isAdmin = await permissionHelper.isAdmin(client, message.author);
+    let state = State.instance(),
+        isAdmin = await permissionHelper.isAdmin(client, message.author);
+
     if (!isAdmin){
         message.author.send(messages.permissionError);
         return codes.MESSAGE_REJECTED_PERMISSION;

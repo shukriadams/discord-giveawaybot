@@ -64,6 +64,12 @@ class Client{
             id : 1234
         };
 
+        this.users = {
+            get : async function(){
+                return this._nextUser;
+            }.bind(this)
+        };
+
         this.bot = bot;
     }
 

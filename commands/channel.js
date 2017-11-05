@@ -1,6 +1,6 @@
 // cancel ID : cancel an active giveaway if you are admin, or if competition hasn't started yet and you created it
 
-let settings = require('./../utils/settings').instance(),
+let Settings = require('./../utils/settings'),
     codes = require('./../utils/codes'),
     messages = require('./../utils/messages'),
     infoLog = require('./../utils/logger').info,
@@ -9,7 +9,9 @@ let settings = require('./../utils/settings').instance(),
 
 module.exports = async function (client, message){
 
-    let isAdmin = await permissionHelper.isAdmin(client, message.author);
+    let settings = Settings.instance(),
+        isAdmin = await permissionHelper.isAdmin(client, message.author);
+
     if (!isAdmin){
         message.author.send(messages.permissionError);
         return codes.MESSAGE_REJECTED_PERMISSION;

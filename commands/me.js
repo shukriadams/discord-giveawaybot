@@ -3,11 +3,12 @@ let timeHelper = require('./../utils/timeHelper'),
     bracketHelper = require('./../utils/bracketHelper'),
     codes = require('./../utils/codes'),
     Store = require('./../utils/store'),
-    settings = require('./../utils/settings').instance();
+    Settings = require('./../utils/settings');
 
 module.exports = async function (client, message){
 
-            let store = await Store.instance(),
+            let settings = Settings.instance(),
+                store = await Store.instance(),
                 winnings = store.getWinnings(message.author.id),
                 reply = '';
 

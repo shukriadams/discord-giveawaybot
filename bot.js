@@ -27,6 +27,7 @@ class Bot{
             this.commands.list = require('./commands/list');
             this.commands.queue = require('./commands/queue');
             this.commands.reroll = require('./commands/reroll');
+            this.commands.rules = require('./commands/rules');
             this.commands.cancel = require('./commands/cancel');
             this.commands.channel = require('./commands/channel');
 

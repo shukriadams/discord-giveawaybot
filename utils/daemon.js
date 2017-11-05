@@ -7,8 +7,8 @@ let Store = require('./store'),
     channelProvider = require('./channelProvider'),
     steamUrl = require('./steamUrl'),
     timeHelper = require('./timeHelper'),
-    settings = require('./../utils/settings').instance(),
-    client = require('./../utils/clientProvider').instance();
+    Settings = require('./../utils/settings'),
+    Client = require('./../utils/clientProvider');
     infoLog = require('./../utils/logger').info,
     recordFetch = require('./recordFetch'),
     winston = require('winston'),
@@ -17,6 +17,8 @@ let Store = require('./store'),
 
 module.exports = async function (){
 
+    let settings = Settings.instance(),
+        client = Client.instance();
     /**
      * Constructs a rich embed for a giveaway message
      */
@@ -30,7 +32,7 @@ module.exports = async function (){
                 name: client.user.username,
             },
             title: `:mega: Giveaway ${giveaway.steamName} :mega:`,
-            description: `React with ${settings.values.joinGiveawayResponseCharacter} to enter Time remaining : ${remaining}`,
+            description: `React with ${settings.values.joinGiveawayResponseCharacter} to enter, time remaining : ${remaining}`,
             fields: [
                 {
                     name : 'Given away by',
@@ -125,7 +127,13 @@ module.exports = async function (){
                             let comparableWinning = store.getComparableWinning(user.id, giveaway.price);
                             if (comparableWinning){
                                 reaction.remove(user);
-                                user.send(`Sorry, but you can't enter a giveaway in this price range because you recently won ${comparableWinning.steamName}.`);
+
+                                // inform user of removal once only. This mechanism prevents potential flooding if bot somehow loses permission to delete
+                                // reaction
+                                if (giveaway.cooldownUsers.indexOf(user.id) === -1){
+                                    giveaway.cooldownUsers.push(user.id);
+                                    user.send(`Sorry, but you can't enter a giveaway in this price range because you recently won ${comparableWinning.steamName}.`);
+                                }
                                 infoLog.info(`${user.username} was on cooldown, removed from giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
                                 continue;
                             }
@@ -134,7 +142,7 @@ module.exports = async function (){
                             infoLog.info(`${user.username} joined giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
 
                         }
-                    }
+                    } // for
                     store.update(giveaway);
 
 
@@ -168,24 +176,36 @@ module.exports = async function (){
                         infoLog.info(`Giveaway closed - ID ${giveaway.id} - ${giveaway.steamName}.`);
 
                         // post public congrats message to winner in giveaway channel
-                        if (giveaway.winnerId){
-                            let winnerMessage;
-                            if (giveaway.code)
-                                winnerMessage = `Congratulations <@${giveaway.winnerId}>, you won the draw! Check your DMs for the key.`;
-                            else
-                                winnerMessage = `Congratulations <@${giveaway.winnerId}>, you won the draw! ` +
-                                    `Contact <@${giveaway.ownerId}> for your game.`;
+                        if (giveaway.winnerId)
+                            await channel.send(`Congratulations <@${giveaway.winnerId}>, you won the draw for ${giveaway.steamName}!`);
 
-                            await channel.send(winnerMessage);
+                        let winner = await recordFetch.fetchUser(client,giveaway.winnerId);
+                        // log winner
+                        if (winner){
                             let winner = await recordFetch.fetchUser(client, giveaway.winnerId);
                             infoLog.info(`${winner.username} won initial roll for giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
                         }
 
-                        // send direct message to winner if prize has an activation code
-                        if (giveaway.winnerId && giveaway.code){
-                            let winner = await recordFetch.fetchUser(client,giveaway.winnerId );
+                        // send direct message to winner
+                        if (winner){
+                            let winnerMessage = `Congratulations, you just won ${giveaway.steamName}, courtesy of <@${giveaway.ownerId}>.`;
+                            if (giveaway.code){
+                                winnerMessage += `Your game key is ${giveaway.code}.`;
+                            } else {
+                                winnerMessage += 'Contact them for your game code.';
+                            }
+                            winner.send(winnerMessage);
+                        }
+
+                        // send a message to game creator
+                        let owner = await recordFetch.fetchUser(client, giveaway.ownerId);
+                        if (owner){
+                            let ownerMessage = `Giveaway for ${giveaway.steamName} ended.`;
                             if (winner)
-                                winner.send(`Your game key for ${giveaway.steamName} is ${giveaway.code} ... have fun!`);
+                                ownerMessage += `The winner was <@${giveaway.winnerId}>.`;
+                            else
+                                ownerMessage += 'No winner was found.';
+                            owner.send(ownerMessage);
                         }
 
                     } else {

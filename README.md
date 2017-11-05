@@ -137,6 +137,16 @@ An admin or user with giveaway role can reroll a winner on a finished giveaway i
 doesn't have much meaning if the activation code is attached to the giveaway, as the previous winner will already have
 it.
 
+### rules
+
+Simple rules text can be found using
+
+    rules
+
+To set rules text, admin pemission is required. Use
+
+    rules Your text here ...
+
 ### start
 
 Immediately starts a giveaway.
