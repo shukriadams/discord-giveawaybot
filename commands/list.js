@@ -1,29 +1,15 @@
 // list : list everything
-let dateFormat = require('dateformat'),
+let argParser = require('minimist-string'),
+    dateFormat = require('dateformat'),
     permissionHelper = require('./../utils/permissionHelper'),
     timeHelper = require('./../utils/timeHelper'),
     Store = require('./../utils/store'),
     codes = require('./../utils/codes'),
-    hi = require('./../utils/highlight'),
-    messages = require('./../utils/messages');
+    hi = require('./../utils/highlight');
 
 module.exports = async function (client, message, messageText){
 
-    let args = messageText.split(' ');
-    if (args.length > 2){
-        message.author.send(messages.listArgumentsError);
-        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
-    }
-
-    let listSwitch = null;
-    if (args.length === 2){
-        listSwitch = args[1].toLowerCase();
-        if (listSwitch !== 'all'){
-            message.author.send(messages.listArgumentsError);
-            return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
-        }
-    }
-
+    let args = argParser(messageText);
     let store = await Store.instance();
 
     // discord message size limit is 2000 chars, to prevent list from breaking this we split
@@ -31,7 +17,7 @@ module.exports = async function (client, message, messageText){
     let giveaways = store.list(),
         chunks = [];
 
-    if (listSwitch !== 'all')
+    if (!args.all)
         giveaways = giveaways.filter(function(giveaway){
             return giveaway.status === 'closed' || giveaway.status === 'cancelled' ? null: giveaway;
         });
@@ -88,8 +74,8 @@ module.exports = async function (client, message, messageText){
 
     } else {
         let reply = `No giveaways found - create one with the ${hi('start')} or ${hi('queue')} commands.`;
-        if (listSwitch !== 'all' && isAdmin)
-            reply += ` You can also try ${hi('list all')} to view old giveaways.`;
+        if (!args.all && isAdmin)
+            reply += ` You can also try ${hi('list --all')} to view old giveaways.`;
 
         chunks.push(reply);
     }

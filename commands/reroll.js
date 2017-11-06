@@ -1,6 +1,7 @@
 // reroll ID : rerolls the winner of a competition, cancelled winners cannot win again, only admins can reroll
 
-let Store = require('./../utils/store'),
+let argParser = require('minimist-string'),
+    Store = require('./../utils/store'),
     codes = require('./../utils/codes'),
     hi = require('./../utils/highlight'),
     infoLog = require('./../utils/logger').info,
@@ -10,30 +11,28 @@ let Store = require('./../utils/store'),
 
 module.exports = async function (client, message, messageText){
     let store = await Store.instance();
-    let args = messageText.split(' ');
+    let args = argParser(messageText);
 
-    if (args.length !== 2){
-        message.author.send(`Invalid reroll command. Expected : ${hi('reroll [giveaway id]')}.`);
+    if (!args.id){
+        message.author.send(`Invalid reroll command. Expected : ${hi('reroll --id giveawayid')}`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 
-    let giveawayId = args[1];
-
     // ensure int
-    if (isNaN(giveawayId)){
-        message.author.send(`${hi(giveawayId)} is not a valid giveaway id - only numbers are allowed.`);
+    if (isNaN(args.id)){
+        message.author.send(`${hi(args.id)} is not a valid giveaway id - only numbers are allowed.`);
         return codes.MESSAGE_REJECTED_INVALIDINT;
     }
 
-    let giveaway = store.get(giveawayId);
+    let giveaway = store.get(args.id);
     if (!giveaway){
-        message.author.send(`No giveaway with id ${hi(giveawayId)} could be found. Use ${hi('list')} to find giveaway id's.`);
+        message.author.send(`No giveaway with id ${hi(args.id)} could be found. Use ${hi('list')} to find giveaway id's.`);
         return codes.MESSAGE_REJECTED_GIVEAWAYNOTFOUND;
     }
 
     // if user is giveaway creator or an admin, allow cancel
     let isAdmin = await permissionHelper.isAdmin(client, message.author);
-    if (giveawayId.ownerId !== message.author.id && !isAdmin){
+    if (giveaway.ownerId !== message.author.id && !isAdmin){
         message.author.send(messages.permissionError);
         return codes.MESSAGE_REJECTED_PERMISSION;
     }

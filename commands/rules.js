@@ -1,5 +1,6 @@
 // help : displays help info
-let codes = require('./../utils/codes'),
+let argParser = require('minimist-string'),
+    codes = require('./../utils/codes'),
     Settings = require('./../utils/settings'),
     permissionHelper = require('./../utils/permissionHelper'),
     messages = require('./../utils/messages'),
@@ -8,27 +9,35 @@ let codes = require('./../utils/codes'),
 module.exports = async function (client, message, messageText){
 
     let settings = Settings.instance(),
-        isAdmin = await permissionHelper.isAdmin(client, message.author),
-        text = '';
+        isAdmin = await permissionHelper.isAdmin(client, message.author);
 
-    let args = messageText.split(' ');
-    if (args.length === 1){
-        // display rules
-        text = settings.values.ruleText;
-        if (!text){
-            text = 'Rule text is not set. You might want to tell an admin about that.';
-        }
-        message.author.send(text);
-    } else {
+    let args = argParser(messageText);
+
+    if (args.help) {
+        let help = `${hi('rules')} displays a simple rules message.\n`;
+        if (isAdmin)
+            help += `${hi('rules --text "your rules text"')} sets the rules text.`;
+        message.author.send(help);
+        return codes.MESSAGE_ACCEPTED;
+    }
+
+    if (args.text){
         if (!isAdmin){
             message.author.send(messages.permissionError);
             return codes.MESSAGE_REJECTED_PERMISSION;
         }
 
-        settings.values.ruleText = messageText.substr(5).trim();
+        settings.values.ruleText = args.text;
         settings.save();
         message.author.send(`Rule text updated to : \n\n ${settings.values.ruleText}`);
+        return codes.MESSAGE_ACCEPTED;
     }
+
+    // display rules
+    let text = settings.values.ruleText;
+    if (!text)
+        text = 'Rule text is not set. You might want to tell an admin about that.';
+    message.author.send(text);
 
     return codes.MESSAGE_ACCEPTED;
 

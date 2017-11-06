@@ -17,7 +17,7 @@ module.exports = async function (client, message){
     text.push({ seq : 'm', text : `${hi('me')} : Tells you if you're on cooldown.`});
     text.push({ seq : '', text : `Hi, I'm giveaway bot. I give things away on your behalf. My commands are :`});
     text.push({ seq : 'zzz', text : `All commands except ${hi('channel')} should be sent to me in direct chat.` });
-    text.push({ seq : 'b', text : `${hi('brackets [price]-[price]..')} : sets price brackets for games.` });
+    text.push({ seq : 'b', text : `${hi('brackets')} : price brackets for games.` });
 
     // admin / giveaway creator users
     if (isAdminOrCanGiveaway){

@@ -88,7 +88,7 @@ you like.
 sets 3 brackets, 1-20, 20-50 and 50-100. If a game costs 20 USD, it falls in the first bracket that it fits in, 0-20 in
 this case. You can start and brackets at any price range. For example
 
-    brackets 20-30
+    brackets -b 20-30
 
 sets one bracket, and will catch only games that fall in its range, and a user will be allowed unlimited entry in games
 below 20USD or above 30USD.
