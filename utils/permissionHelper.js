@@ -2,6 +2,7 @@ let recordFetch = require('./recordFetch'),
     Discord = require('discord.js');
 
 module.exports = {
+
     isAdmin : async function(client, discordUser){
         let guildMember = await recordFetch.fetchGuildMember(client, discordUser);
         if (!guildMember)
@@ -9,6 +10,7 @@ module.exports = {
 
         return guildMember.hasPermission(Discord.Permissions.FLAGS.MANAGE_CHANNELS);
     },
+
     isAdminOrHasRole : async function(client, discordUser, roleName){
         let guildMember = await recordFetch.fetchGuildMember(client, discordUser);
         if (!guildMember)

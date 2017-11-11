@@ -70,8 +70,9 @@ module.exports = async function (client, message, messageText){
 
     if (args.h || args.help){
         message.author.send(
-            `${hi('cancel')} stops an ongoing or queued giveaway.\n` +
-            `Expected : cancel --id giveawayId \n`+
+            `${hi('cancel')} stops an ongoing or queued giveaway. Only admins or the giveaway creator can cancel a giveaway.\n\n` +
+            `Expected : ${hi('cancel --id giveawayId')} \n`+
+            `Example : ${hi('cancel --id 5')} \n\n`+
             `To get a giveaway id try the ${hi('list')} command`
         );
         return codes.MESSAGE_ACCEPTED_HELPRETURNED;

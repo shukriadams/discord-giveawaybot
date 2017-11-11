@@ -13,12 +13,12 @@ module.exports = async function (client, message, messageText){
         args = argParser(messageText),
         isAdmin = await permissionHelper.isAdmin(client, message.author);
 
-    if (!isAdmin){
-        message.author.send(messages.permissionError);
-        return codes.MESSAGE_REJECTED_PERMISSION;
-    }
-
     if (args.b){
+        if (!isAdmin){
+            message.author.send(messages.permissionError);
+            return codes.MESSAGE_REJECTED_PERMISSION;
+        }
+
         let bracketParts = args.b.split('-').filter(function(part){ return part.length ? part : null; });
         if (bracketParts.length < 2){
             message.author.send(`You should specify at least one price range, ex, ${hi('brackets -b 0-100')}.`);
@@ -50,6 +50,11 @@ module.exports = async function (client, message, messageText){
     }
 
     if (args.h || args.help){
+        if (!isAdmin){
+            message.author.send(messages.permissionError);
+            return codes.MESSAGE_REJECTED_PERMISSION;
+        }
+
         message.author.send(
             `${hi('brackets')} divides games up into price groups.\n\n` +
             `If someone wins a game, they will not be allowed to enter another giveaway for ${settings.values.winningCooldownDays} days. `+
@@ -71,7 +76,8 @@ module.exports = async function (client, message, messageText){
             reply += `$${hi(bracket.min)} - $${hi(bracket.max)}\n`;
     }
 
-    reply += `You can also try ${hi('brackets --help')} for more info.`;
+    if (isAdmin)
+        reply += `You can also try ${hi('brackets --help')} for more info.`;
 
     message.author.send(reply);
     return codes.MESSAGE_ACCEPTED_BRACKETSLIST;

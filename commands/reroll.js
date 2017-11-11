@@ -13,8 +13,19 @@ module.exports = async function (client, message, messageText){
     let store = await Store.instance();
     let args = argParser(messageText);
 
+    if (args.h) args.help = true;
+    if (args.help){
+        message.author.send(
+            `${hi('reroll')} randomly selects another winner for a giveaway. It can be used only by admins or the giveaway creator.\n\n` +
+            `Expected: ${hi('reroll --id giveawayid')}\n` +
+            `Example: ${hi('reroll --id 5')}\n` +
+            `To get a giveaway id try the ${hi('list')} command`
+        );
+        return codes.MESSAGE_ACCEPTED_HELPRETURNED;
+    }
+
     if (!args.id){
-        message.author.send(`Invalid reroll command. Expected : ${hi('reroll --id giveawayid')}`);
+        message.author.send(`Invalid reroll command. `);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 

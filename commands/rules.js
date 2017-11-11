@@ -13,8 +13,10 @@ module.exports = async function (client, message, messageText){
 
     let args = argParser(messageText);
 
+    if (args.h) args.help = true;
+
     if (args.help) {
-        let help = `${hi('rules')} displays a simple rules message.\n`;
+        let help = `${hi('rules')} displays a simple rules message.\n\n`;
         if (isAdmin)
             help += `${hi('rules --text "your rules text"')} sets the rules text.`;
         message.author.send(help);

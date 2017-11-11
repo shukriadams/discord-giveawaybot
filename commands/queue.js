@@ -19,7 +19,11 @@ module.exports = async function (client, message, messageText){
 
     // validate input
     if (args.help || !args.start || !args.duration || !args.id){
-        message.author.send(`Expected : ${hi('queue  -s startTime -d durationTime -i Steamlink/id -k gamekey')}. Key is optional. ${message.timeFormat}`);
+        message.author.send(
+        `${hi('Queue')} creates a giveaway, but lets you specify a time in the future when the giveaway will publicly commence.\n\n` +
+        `Expected : ${hi('queue -s startTime -d durationTime -i Steamlink/id -k gamekey')}. Key is optional.\n` +
+        `Example : ${hi('queue -s 5m -d 1h -i 524220 -k 12345-abcde-12346')} queues a giveaway that starts in 5 minutes, runs for 1 hour, gives away Nier Automata, and messages the key 12345-abcde-12346 to the winner.\n` +
+        `${messages.timeFormat}`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 
