@@ -2,13 +2,14 @@
 let argParser = require('minimist-string'),
     dateFormat = require('dateformat'),
     permissionHelper = require('./../utils/permissionHelper'),
+    Settings = require('./../utils/settings'),
     timeHelper = require('./../utils/timeHelper'),
     Store = require('./../utils/store'),
     codes = require('./../utils/codes'),
     hi = require('./../utils/highlight');
 
 module.exports = async function (client, message, messageText){
-
+    let settings = Settings.instance();
     let args = argParser(messageText);
     let store = await Store.instance();
 
@@ -22,7 +23,7 @@ module.exports = async function (client, message, messageText){
         message.reply(
             `${hi('list')} returns a list of giveaways.\n\n` +
             `Expected: ${hi('list')} lists giveaways that are currently ongoing. \n` +
-            `Expected: ${hi('list --all')} lists current and completed giveaways. \n`);
+            `Expected: ${hi('list --all')} lists current and completed giveaways up to ${settings.values.deleteGiveawaysAfter} days ago. \n`);
 
         return codes.MESSAGE_ACCEPTED_HELPRETURNED;
     }
@@ -59,7 +60,7 @@ module.exports = async function (client, message, messageText){
             if (giveaway.status === 'pending') {
                 chunk += ' starts at ' + timeHelper.timePlusMinutes(giveaway.created, giveaway.start);
             } else if (giveaway.status === 'open') {
-                chunk += ' ends at ' + timeHelper.timePlusMinutes(giveaway.started, giveaway.duration);
+                chunk += ' ends at ' + timeHelper.timePlusMinutes(giveaway.started, giveaway.durationMinutes);
             } else if (giveaway.status === 'closed') {
                 let span = timeHelper.timespan(created, giveaway.ended);
 

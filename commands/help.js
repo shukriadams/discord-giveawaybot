@@ -14,9 +14,10 @@ module.exports = async function (client, message){
     // all users
     text.push({ seq : 'h', text : `${hi('help')} : displays this text.`  });
     text.push({ seq : 'l', text : `${hi('list')} : lists giveaways.`});
+    text.push({ seq : 'r', text : `${hi('rules')} : shows rules.`});
     text.push({ seq : 'm', text : `${hi('me')} : Tells you if you're on cooldown.`});
     text.push({ seq : '', text : `Hi, I'm giveaway bot. I give things away on your behalf. My commands are :`});
-    text.push({ seq : 'zzz', text : `Command --help or -h gets you detailed instructions, egs ${hi('start --help')}. All commands except ${hi('channel')} should be sent to me in direct chat.` });
+    text.push({ seq : 'zzz', text : `Command --help or -h gets you detailed instructions, egs ${hi('list --help')}. All commands should be sent to me in direct chat (PM).` });
     text.push({ seq : 'b', text : `${hi('brackets')} : price brackets for games.` });
 
     // admin / giveaway creator users

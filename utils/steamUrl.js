@@ -11,6 +11,10 @@ module.exports = {
      * Note, this does not test the validity of the input, it merely handles if input is ID or full url.
      */
     getInfo : function(input){
+
+        input = input.toString();
+        input = input.toLowerCase();
+
         let pattern = /\/app\/([0-9]*)\//;
         let matches = input.match(pattern);
 

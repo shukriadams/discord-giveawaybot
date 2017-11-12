@@ -47,6 +47,12 @@ module.exports = async function (client, message, messageText){
             return codes.MESSAGE_REJECTED_GIVEAWAYCLOSED;
         }
 
+        // this is prevent giveaway owners from wiping cooldown wins
+        if (giveaway.status === 'closed' && !isAdmin){
+            message.author.send('Cancel failed - only an admin can change a closed giveaway to cancel');
+            return codes.MESSAGE_REJECTED_PERMISSION;
+        }
+
         giveaway.status = 'cancelled';
         giveaway.ended = new Date().getTime();
         store.update(giveaway);

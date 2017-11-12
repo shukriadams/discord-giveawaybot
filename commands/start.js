@@ -17,9 +17,9 @@ module.exports = async function (client, message, messageText){
     function showHelp(){
         message.author.send(
             `${hi('start')} begins a giveaway immediately. The giveaway runs for an amount of time, after which a random entrant is picked as the winner. \n\n` +
-            `Simple mode: ${hi('start -d time -i SteamUrl/id')} \n`+
+            `Simple mode: ${hi('start time SteamUrl/id')} \n`+
             `Example: ${hi('start 5h 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n\n`+
-            `Advanced mode: ${hi('start -d time -i SteamUrl/id')}.\n\n`+
+            `Advanced mode: ${hi('start -d time -i SteamUrl/id')}.\n`+
             `Example: ${hi('start -d 5h -i 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n`+
             `${messages.timeFormat}.`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;

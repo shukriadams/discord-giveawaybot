@@ -9,7 +9,7 @@ module.exports = {
      */
     createGiveawayEmbed : function (client, giveaway){
         let settings = Settings.instance(),
-            ends = timeHelper.timePlusMinutesAsDate(giveaway.started, giveaway.duration),
+            ends = timeHelper.timePlusMinutesAsDate(giveaway.started, giveaway.durationMinutes),
             remaining = timeHelper.remaining(new Date().getTime(), ends);
 
         return {embed: {
