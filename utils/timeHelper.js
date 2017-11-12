@@ -91,6 +91,7 @@ module.exports = {
 
     // gets a date value of the date x days ago
     daysAgo: function(daysAgo){
+
         let date = new Date();
         date.setDate(date.getDate() - daysAgo);
         return date;

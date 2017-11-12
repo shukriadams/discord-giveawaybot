@@ -64,6 +64,7 @@ class Store {
             code : record.code,                         // steam activation code. used only for queued giveaways
             winnerId: record.winnerId,                  // discord userid, winner of giveaway
             rejectedWinners : record.rejectedWinners,   // array of userids
+            cooldownUsers : record.cooldownUsers,       // array of users who are warned about cooldown. this is NOT canonical
             created : record.created,                   // javascript date in ms, when giveaway was created
             started : record.started,                   // javascript date in ms, when giveaway started
             ended : record.ended,                       // javascript date in ms, when giveaway ended (or was cancelled)
@@ -156,14 +157,6 @@ class Store {
             { status : 'pending' },
             { status : 'open'}
         ]});
-    }
-
-    delete(id){
-        let existingRecord = this._table.get(parseInt(id));
-        if (!existingRecord)
-            return;
-
-        this._table.remove(existingRecord);
     }
 
     clean(){

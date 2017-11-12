@@ -5,48 +5,25 @@
 let Store = require('./store'),
     winnerSelector = require('./winnerSelector'),
     channelProvider = require('./channelProvider'),
+    giveawayMessageWriter = require ('./giveawayMessageWriter'),
     steamUrl = require('./steamUrl'),
     timeHelper = require('./timeHelper'),
-    Settings = require('./../utils/settings'),
-    Client = require('./../utils/clientProvider');
-    infoLog = require('./../utils/logger').info,
+    Settings = require('./settings'),
+    Client = require('./clientProvider');
+    infoLog = require('./logger').info,
     recordFetch = require('./recordFetch'),
     winston = require('winston'),
     busy = false,
     CronJob = require('cron').CronJob;
 
-module.exports = async function (){
+module.exports = async function daemon (){
 
     let settings = Settings.instance(),
         client = Client.instance();
-    /**
-     * Constructs a rich embed for a giveaway message
-     */
-    function createGiveawayEmbed( giveaway){
-        let ends = timeHelper.timePlusMinutesAsDate(giveaway.started, giveaway.duration),
-            remaining = timeHelper.remaining(new Date().getTime(), ends);
 
-        return {embed: {
-            color: 3447003,
-            author: {
-                name: client.user.username,
-            },
-            title: `:mega: Giveaway ${giveaway.steamName} :mega:`,
-            description: `React with ${settings.values.joinGiveawayResponseCharacter} to enter, time remaining : ${remaining}`,
-            fields: [
-                {
-                    name : 'Given away by',
-                    value : `<@${giveaway.ownerId}>`
-                }],
-            footer: {
-                text: 'Giveaway ends at '
-            },
-            timestamp: ends
-        }};
-    }
 
     // every 5 seconds
-    new CronJob('*/5 * * * * *', async function() {
+    new CronJob('*/5 * * * * *', async function daemonCron() {
 
         try
         {
@@ -74,8 +51,7 @@ module.exports = async function (){
                         // broadcast start to channel- post url of game
                         let urlMessageId = await channel.send(steamUrl.getUrl(giveaway.steamId));
 
-                        let embed = createGiveawayEmbed(giveaway);
-                        let giveAwayMessage = await channel.send( embed );
+                        let giveAwayMessage = await giveawayMessageWriter.writeNew(client, giveaway);
 
                         giveaway.urlMessageId = urlMessageId.id;
                         giveaway.startMessageId = giveAwayMessage.id;
@@ -126,13 +102,17 @@ module.exports = async function (){
                             // remove users not eligible to enter
                             let comparableWinning = store.getComparableWinning(user.id, giveaway.price);
                             if (comparableWinning){
+
+                                // Note - this can fail if the bot doesn't have permission do delete a reaction, but it shouldn't throw an exception
                                 reaction.remove(user);
 
-                                // inform user of removal once only. This mechanism prevents potential flooding if bot somehow loses permission to delete
+                                // inform user of removal once only. This mechanism is purely for flooding protection in event of the removal failing
                                 // reaction
                                 if (giveaway.cooldownUsers.indexOf(user.id) === -1){
                                     giveaway.cooldownUsers.push(user.id);
-                                    user.send(`Sorry, but you can't enter a giveaway in this price range because you recently won ${comparableWinning.steamName}.`);
+                                    let daysAgoWon = timeHelper.daysSince(comparableWinning.ended);
+                                    let coolDownLeft = settings.values.winningCooldownDays - daysAgoWon;
+                                    user.send(`Sorry, but you can't enter a giveaway for ${giveaway.steamName} because you won ${comparableWinning.steamName} ${daysAgoWon} days ago. These games are in the same price range. You will have to wait ${coolDownLeft} more days to enter this price range again, but you can still enter giveaways in other price ranges.`);
                                 }
                                 infoLog.info(`${user.username} was on cooldown, removed from giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
                                 continue;
@@ -156,24 +136,7 @@ module.exports = async function (){
                         store.update(giveaway);
 
                         // Update original channel post
-                        giveAwayMessage.edit( { embed : {
-                            title: `:mega: Giveaway ${giveaway.steamName} ended :mega:`,
-                            fields: [
-                                {
-                                    name : 'Given away by',
-                                    value : `<@${giveaway.ownerId}>`
-                                },
-                                {
-                                    name : 'Results',
-                                    value : giveaway.winnerId ? `<@${giveaway.winnerId}> won` : 'No winner found'
-                                }],
-                            footer: {
-                                text: 'Giveaway ended at '
-                            },
-                            timestamp: new Date()
-                        }});
-
-                        infoLog.info(`Giveaway closed - ID ${giveaway.id} - ${giveaway.steamName}.`);
+                        giveawayMessageWriter.writeWinner(giveAwayMessage, giveaway);
 
                         // post public congrats message to winner in giveaway channel
                         if (giveaway.winnerId)
@@ -192,7 +155,7 @@ module.exports = async function (){
                             if (giveaway.code){
                                 winnerMessage += `Your game key is ${giveaway.code}.`;
                             } else {
-                                winnerMessage += 'Contact them for your game code.';
+                                winnerMessage += 'Contact them for your game key.';
                             }
                             winner.send(winnerMessage);
                         }
@@ -214,8 +177,7 @@ module.exports = async function (){
                         let minutesSinceUpdate = timeHelper.minutesSince(giveaway.lastUpdated);
                         if (minutesSinceUpdate >= 1){
 
-                            let embed = createGiveawayEmbed(giveaway);
-                            giveAwayMessage.edit(embed);
+                            giveawayMessageWriter.writeUpdate(client, giveaway, giveAwayMessage);
 
                             giveAwayMessage.lastUpdated = new Date().getTime();
                             store.update(giveaway);

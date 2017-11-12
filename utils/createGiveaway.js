@@ -55,7 +55,7 @@ module.exports = async function create(message, client, start, duration, steamUr
         verb = start? 'Queued' : 'Starting';
 
     message.author.send(`${verb} giveaway id ${queued.id}, ${gameInfo.steamName}`);
-    infoLog.info(`${message.author.username} created giveaway id ${queued.id}, type ${verb}, ${gameInfo.steamName}.`);
+    infoLog.info(`${message.author.username} created giveaway | id: ${queued.id} | verb: ${verb} | title: ${gameInfo.steamName} | start: ${(start?start.minutes:null)}| duration: ${(duration ? duration.minutes: null)}| steamUrlId: ${steamUrlInfo.steamId}| code: ${code} `);
     return codes.MESSAGE_ACCEPTED;
 
 };

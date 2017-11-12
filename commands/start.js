@@ -1,5 +1,6 @@
 // start : duration(xd xh or xm) steamlink|steamid (required) : starts a competition immediately
 let argParser = require('minimist-string'),
+    argsHelper = require('./../utils/argsHelper'),
     getTime = require('./../utils/getTime'),
     createGiveaway = require('./../utils/createGiveaway'),
     messages = require('./../utils/messages'),
@@ -10,15 +11,15 @@ let argParser = require('minimist-string'),
 module.exports = async function (client, message, messageText){
 
     // first check if start command is running in simple mode
-    let args = messageText.split(' '),
+    let args = argsHelper.stringSplit(messageText),
         hasSwitches = args.some(function(arg) { return arg.indexOf('-') === 0; });
 
     function showHelp(){
         message.author.send(
             `${hi('start')} begins a giveaway immediately. The giveaway runs for an amount of time, after which a random entrant is picked as the winner. \n\n` +
-            `Simple mode: ${hi('start -d time -i Steamlink/id')} \n`+
+            `Simple mode: ${hi('start -d time -i SteamUrl/id')} \n`+
             `Example: ${hi('start 5h 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n\n`+
-            `Advanced mode: ${hi('start -d time -i Steamlink/id')}.\n\n`+
+            `Advanced mode: ${hi('start -d time -i SteamUrl/id')}.\n\n`+
             `Example: ${hi('start -d 5h -i 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n`+
             `${messages.timeFormat}.`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;

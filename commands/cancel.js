@@ -42,8 +42,8 @@ module.exports = async function (client, message, messageText){
             return codes.MESSAGE_REJECTED_PERMISSION;
         }
 
-        if (giveaway.status !== 'pending' && giveaway.status !== 'open'){
-            message.author.send('Cancel failed - that giveaway has already finished.');
+        if (giveaway.status === 'cancelled'){
+            message.author.send('Cancel failed - that giveaway is already cancelled.');
             return codes.MESSAGE_REJECTED_GIVEAWAYCLOSED;
         }
 

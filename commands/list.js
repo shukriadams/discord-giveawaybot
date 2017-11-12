@@ -17,6 +17,16 @@ module.exports = async function (client, message, messageText){
     let giveaways = store.list(),
         chunks = [];
 
+    if (args.h) args.help = true;
+    if (args.help) {
+        message.reply(
+            `${hi('list')} returns a list of giveaways.\n\n` +
+            `Expected: ${hi('list')} lists giveaways that are currently ongoing. \n` +
+            `Expected: ${hi('list --all')} lists current and completed giveaways. \n`);
+
+        return codes.MESSAGE_ACCEPTED_HELPRETURNED;
+    }
+
     if (!args.all)
         giveaways = giveaways.filter(function(giveaway){
             return giveaway.status === 'closed' || giveaway.status === 'cancelled' ? null: giveaway;
@@ -74,8 +84,8 @@ module.exports = async function (client, message, messageText){
 
     } else {
         let reply = `No giveaways found - create one with the ${hi('start')} or ${hi('queue')} commands.`;
-        if (!args.all && isAdmin)
-            reply += ` You can also try ${hi('list --all')} to view old giveaways.`;
+        if (!args.all)
+            reply += ` You can also try ${hi('list --all')} to view ongoing and completed giveaways.`;
 
         chunks.push(reply);
     }

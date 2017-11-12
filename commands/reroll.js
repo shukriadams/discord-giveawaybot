@@ -4,16 +4,23 @@ let argParser = require('minimist-string'),
     Store = require('./../utils/store'),
     codes = require('./../utils/codes'),
     hi = require('./../utils/highlight'),
+    recordFetch = require('./../utils/recordFetch'),
     infoLog = require('./../utils/logger').info,
     messages = require('./../utils/messages'),
+    Settings = require('./../utils/settings'),
     permissionHelper = require('./../utils/permissionHelper'),
+    channelProvider = require('./../utils/channelProvider'),
+    giveawayMessageWriter = require('./../utils/giveawayMessageWriter'),
     winnerSelector = require('./../utils/winnerSelector');
 
 module.exports = async function (client, message, messageText){
-    let store = await Store.instance();
-    let args = argParser(messageText);
+    let settings = Settings.instance,
+        store = await Store.instance(),
+        args = argParser(messageText);
 
     if (args.h) args.help = true;
+    if (args.i) args.id = args.i;
+
     if (args.help){
         message.author.send(
             `${hi('reroll')} randomly selects another winner for a giveaway. It can be used only by admins or the giveaway creator.\n\n` +
@@ -25,7 +32,7 @@ module.exports = async function (client, message, messageText){
     }
 
     if (!args.id){
-        message.author.send(`Invalid reroll command. `);
+        message.author.send(`Invalid reroll command.`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 
@@ -75,7 +82,14 @@ module.exports = async function (client, message, messageText){
         let user = await client.fetchUser(giveaway.winnerId);
         message.author.send(`Giveaway winner is now ${hi(user.username)}.`);
         infoLog.info(`User ${user.username} won reroll for giveaway id ${giveaway.id} -  ${giveaway.steamName}.`);
+    } else {
+        message.author.send('Failed to assign new winner to giveaway. This giveaway currently has no winner.');
     }
+
+    // update giveaway message
+    let channel = channelProvider(client, settings);
+    let giveAwayMessage = await recordFetch.fetchMessage(channel, giveaway.startMessageId);
+    giveawayMessageWriter.writeWinner(giveAwayMessage, giveaway);
 
     return codes.MESSAGE_ACCEPTED;
 
