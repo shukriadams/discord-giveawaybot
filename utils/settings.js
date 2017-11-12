@@ -22,6 +22,9 @@ class Settings {
             if (this.values.winningCooldownDays === undefined)
                 this.values.winningCooldownDays = 3;
 
+            if (this.values.maxConcurrentGiveaways === undefined)
+                this.values.maxConcurrentGiveaways = 5;
+
             if (this.values.joinGiveawayResponseCharacter === undefined)
                 this.values.joinGiveawayResponseCharacter = '🎉';
         }

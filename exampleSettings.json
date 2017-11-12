@@ -3,5 +3,6 @@
   "joinGiveawayResponseCharacter": "🎉",
   "giveawayRole": "Giveaways",
   "bracketsCurrencyZone": "us",
+  "maxConcurrentGiveaways" : 5,
   "winningCooldownDays" : 3
 }

@@ -159,6 +159,28 @@ class Store {
         ]});
     }
 
+    getNextGiveawayToEnd(){
+        let soonest = null,
+            giveaway = null,
+            activeGiveaways = this.getActive();
+
+        for (let activeGiveaway of activeGiveaways){
+            let date = new Date(activeGiveaway.created);
+            if (activeGiveaway.startMinutes)
+                date = timeHelper.timePlusMinutesAsDate(date, activeGiveaway.startMinutes);
+
+            date = timeHelper.timePlusMinutesAsDate(date, activeGiveaway.durationMinutes);
+            if (!soonest || soonest.getTime() > date.getTime())
+                soonest = date;
+                giveaway = activeGiveaway;
+        }
+
+        return giveaway ?  {
+            giveaway : giveaway,
+            endsIn : timeHelper.remaining(new Date(), soonest)
+        } : null;
+    }
+
     clean(){
         let date = new Date();
 

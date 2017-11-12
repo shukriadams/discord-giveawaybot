@@ -28,6 +28,16 @@ module.exports = async function create(message, client, start, duration, steamUr
         return codes.MESSAGE_REJECTED_INVALIDSTEAMID;
     }
 
+    let activeGiveaways = store.getActive();
+    if (activeGiveaways.length >= settings.values.maxConcurrentGiveaways){
+
+        // calc end time of giveaways
+        let nextGiveawayToEnd = store.getNextGiveawayToEnd();
+
+        message.author.send(`Error : The maximum number of concurrent giveaways (${settings.values.maxConcurrentGiveaways}) has been reached. The next giveaway to end is ${nextGiveawayToEnd.giveaway.steamName} in ${nextGiveawayToEnd.endsIn}.`);
+        return codes.MESSAGE_REJECTED_MAXCONCURRENTGIVEAWAYS;
+    }
+
     // try to get bracket - this can be null if no brackets exist
     let bracket = bracketHelper.findBracketForPrice(gameInfo.price);
 
