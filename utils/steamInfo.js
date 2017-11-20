@@ -10,7 +10,8 @@ class SteamInfo{
         let result = {
             success : false,
             price : null,
-            steamName : null
+            url : null,
+            gameName : null
         };
 
         // verify link with get to steam
@@ -23,9 +24,9 @@ class SteamInfo{
 
         // steam price is listed in cents of currency, /100 to convert to dollars or euros
         result.price = bodyJson[steamId].data.price_overview.initial / 100;
-        result.steamName = bodyJson[steamId].data.name;
+        result.gameName = bodyJson[steamId].data.name;
         result.success = true;
-
+        result.url = url;
         return result;
     }
 }

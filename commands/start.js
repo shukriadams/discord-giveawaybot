@@ -20,10 +20,13 @@ module.exports = async function (client, message, messageText){
             `Simple mode: ${hi('start time SteamUrl/id')} \n`+
             `Example: ${hi('start 5h 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n\n`+
             `Advanced mode: ${hi('start -d time -i SteamUrl/id')}.\n`+
+            `You can also giveaway titles that are not standard Steam games with :  ${hi('start -d time -u url -p price -n name')}.\n`+
             `Example: ${hi('start -d 5h -i 593280')} creates a giveaway for Cat Quest that runs for 5 hours.\n`+
             `${messages.timeFormat}.`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
+
+
 
     if (hasSwitches){
         args = argParser(messageText);
@@ -31,6 +34,9 @@ module.exports = async function (client, message, messageText){
         if (args.d) args.duration = args.d;
         if (args.i) args.id = args.i;
         if (args.h) args.help = true;
+        if (args.u) args.url = args.u;
+        if (args.n) args.name = args.n;
+        if (args.p) args.price = args.p;
 
         // validate input
         if (args.help || !args.duration || !args.id)
@@ -43,10 +49,18 @@ module.exports = async function (client, message, messageText){
             return codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT;
         }
 
-        let steamUrlInfo = steamUrl.getInfo(args.id.toLowerCase());
+        let steamInfo = null;
+        if (args.id)
+            steamInfo = steamUrl.getInfo(args.id.toLowerCase());
+
+        let gameInfo = {
+            price : args.price,
+            gameName : args.name,
+            url : args.url
+        };
 
         // message, start, duration, steamUrlInfo, code
-        let result = await createGiveaway(message, client, null, duration, steamUrlInfo, null);
+        let result = await createGiveaway(message, client, null, duration, steamInfo, null, gameInfo);
         return result;
     }
 
@@ -57,10 +71,10 @@ module.exports = async function (client, message, messageText){
             return codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT;
         }
 
-        let steamUrlInfo = steamUrl.getInfo(args[2].toLowerCase());
+        let steamInfo = steamUrl.getInfo(args[2].toLowerCase());
 
         // message, start, duration, steamUrlInfo, code
-        let result = await createGiveaway(message, client, null, duration, steamUrlInfo, null);
+        let result = await createGiveaway(message, client, null, duration, steamInfo, null, null);
         return result;
     }
 

@@ -5,13 +5,14 @@ let Settings = require('./settings'),
     permissionHelper = require('./permissionHelper'),
     bracketHelper = require('./bracketHelper'),
     SteamInfo = require('./steamInfo'),
+    hi = require('./highlight'),
     codes = require('./codes'),
     infoLog = require('./logger').info,
     Store = require('./store');
 
-module.exports = async function create(message, client, start, duration, steamUrlInfo, code){
+module.exports = async function create(message, client, start, duration, steamInfo, code, gameInfo){
     let settings = Settings.instance();
-    let steamInfo = SteamInfo.instance();
+    let getSteamInfo = SteamInfo.instance();
     let store = await Store.instance();
 
     // user needs to be admin or have giveaway permission
@@ -21,11 +22,23 @@ module.exports = async function create(message, client, start, duration, steamUr
         return codes.MESSAGE_REJECTED_PERMISSION;
     }
 
-    let gameInfo = await steamInfo.get(steamUrlInfo.steamId, steamUrlInfo.steamUrl);
-    if (!gameInfo.success){
-        message.author.send(`Error : ${steamUrlInfo.steamId} is not a valid steam game id. \n` +
-            'You can get the id from the game\'s store page on Steam. For example, store.steampowered.com/app/379720/DOOM/ is the URL for Doom, and the id is 379720');
-        return codes.MESSAGE_REJECTED_INVALIDSTEAMID;
+    if (steamInfo){
+        gameInfo = await getSteamInfo.get(steamInfo.steamId, steamInfo.steamUrl);
+        if (!gameInfo.success){
+            message.author.send(`Error : ${steamInfo.steamId} is not a valid steam game id. \n` +
+                'You can get the id from the game\'s store page on Steam. For example, store.steampowered.com/app/379720/DOOM/ is the URL for Doom, and the id is 379720');
+            return codes.MESSAGE_REJECTED_INVALIDSTEAMID;
+        }
+    } else {
+        // manually validate gameInfo for name, price and url, these would otherwise be provided by steam
+        if (!gameInfo.url)
+            message.author.send(`Error : Game url is required. Use the ${hi('--url')} or ${hi('-u')} switch.`);
+
+        if (!gameInfo.price)
+            message.author.send(`Error : Game price is required. Use the ${hi('--price')} or ${hi('-p')} switch.`);
+
+        if (!gameInfo.gameName)
+            message.author.send(`Error : Game name is required. Use the ${hi('--name')} or ${hi('-n')} switch.`);
     }
 
     let activeGiveaways = store.getActive();
@@ -34,7 +47,7 @@ module.exports = async function create(message, client, start, duration, steamUr
         // calc end time of giveaways
         let nextGiveawayToEnd = store.getNextGiveawayToEnd();
 
-        message.author.send(`Error : The maximum number of concurrent giveaways (${settings.values.maxConcurrentGiveaways}) has been reached. The next giveaway to end is ${nextGiveawayToEnd.giveaway.steamName} in ${nextGiveawayToEnd.endsIn}.`);
+        message.author.send(`Error : The maximum number of concurrent giveaways (${settings.values.maxConcurrentGiveaways}) has been reached. The next giveaway to end is ${nextGiveawayToEnd.giveaway.gameName} in ${nextGiveawayToEnd.endsIn}.`);
         return codes.MESSAGE_REJECTED_MAXCONCURRENTGIVEAWAYS;
     }
 
@@ -54,9 +67,9 @@ module.exports = async function create(message, client, start, duration, steamUr
         code : code ? code : null,
         created : new Date().getTime(),
         lastUpdated : new Date().getTime(),
-        steamId : steamUrlInfo.steamId,
         channelId : message.channel.id,
-        steamName: gameInfo.steamName,
+        gameUrl: gameInfo.url,
+        gameName: gameInfo.gameName,
         price : gameInfo.price,
         bracket : bracket ? bracketHelper.toString(bracket): null
     };
@@ -64,8 +77,8 @@ module.exports = async function create(message, client, start, duration, steamUr
     let queued = store.add(giveaway),
         verb = start? 'Queued' : 'Starting';
 
-    message.author.send(`${verb} giveaway id ${queued.id}, ${gameInfo.steamName}`);
-    infoLog.info(`${message.author.username} created giveaway | id: ${queued.id} | verb: ${verb} | title: ${gameInfo.steamName} | start: ${(start?start.minutes:null)}| duration: ${(duration ? duration.minutes: null)}| steamUrlId: ${steamUrlInfo.steamId}| code: ${code} `);
+    message.author.send(`${verb} giveaway id ${queued.id}, ${gameInfo.gameName}`);
+    infoLog.info(`${message.author.username} created giveaway | id: ${queued.id} | verb: ${verb} | title: ${gameInfo.gameName} | start: ${(start?start.minutes:null)}| duration: ${(duration ? duration.minutes: null)}| code: ${code} `);
     return codes.MESSAGE_ACCEPTED;
 
 };

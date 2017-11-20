@@ -76,12 +76,12 @@ module.exports = async function (client, message, messageText){
 
     store.update(giveaway);
 
-    infoLog.info(`User ${message.author.username} rerolled on giveaway id ${giveaway.id} -  ${giveaway.steamName}.`);
+    infoLog.info(`User ${message.author.username} rerolled on giveaway id ${giveaway.id} -  ${giveaway.gameName}.`);
 
     if (giveaway.winnerId){
         let user = await client.fetchUser(giveaway.winnerId);
         message.author.send(`Giveaway winner is now ${hi(user.username)}.`);
-        infoLog.info(`User ${user.username} won reroll for giveaway id ${giveaway.id} -  ${giveaway.steamName}.`);
+        infoLog.info(`User ${user.username} won reroll for giveaway id ${giveaway.id} -  ${giveaway.gameName}.`);
     } else {
         message.author.send('Failed to assign new winner to giveaway. This giveaway currently has no winner.');
     }

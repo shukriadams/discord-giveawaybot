@@ -17,7 +17,7 @@ module.exports = {
             author: {
                 name: client.user.username,
             },
-            title: `:mega: Giveaway ${giveaway.steamName} :mega:`,
+            title: `:mega: Giveaway ${giveaway.gameName} :mega:`,
             description: `React with ${settings.values.joinGiveawayResponseCharacter} to enter, time remaining : ${remaining}`,
             fields: [
                 {
@@ -50,7 +50,7 @@ module.exports = {
     writeWinner : function(giveawayMessage, giveaway){
 
         giveawayMessage.edit( { embed : {
-            title: `:mega: Giveaway ${giveaway.steamName} ended :mega:`,
+            title: `:mega: Giveaway ${giveaway.gameName} ended :mega:`,
             fields: [
                 {
                     name : 'Given away by',
@@ -66,6 +66,6 @@ module.exports = {
             timestamp: new Date()
         }});
 
-        infoLog.info(`Giveaway closed - ID ${giveaway.id} - ${giveaway.steamName}.`);
+        infoLog.info(`Giveaway closed - ID ${giveaway.id} - ${giveaway.gameName}.`);
     }
 };

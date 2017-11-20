@@ -16,13 +16,17 @@ module.exports = async function (client, message, messageText){
     if (args.i) args.id = args.i;
     if (args.k) args.key = args.k;
     if (args.h) args.help = true;
+    if (args.u) args.url = args.u;
+    if (args.n) args.name = args.n;
+    if (args.p) args.price = args.p;
 
     // validate input
-    if (args.help || !args.start || !args.duration || !args.id){
+    if (args.help || !args.start || !args.duration){
         message.author.send(
         `${hi('Queue')} creates a giveaway, but lets you specify a time in the future when the giveaway will publicly commence.\n\n` +
         `Expected : ${hi('queue -s startTime -d durationTime -i SteamUrl/id -k key')}. Key is the code for activating the game, and is optional. The winner will automatically be messaged this key when the giveaway ends. \n` +
         `Example : ${hi('queue -s 5m -d 1h -i 524220 -k 12345-abcde-12346')} queues a giveaway that starts in 5 minutes, runs for 1 hour, gives away Nier Automata, and messages the key 12345-abcde-12346 to the winner.\n` +
+        `You can also giveaway titles that are not standard Steam games with : ${hi('queue -s time -d time -k key -u url -p price -n name')}.\n`+
         `Use EITHER minutes, hours or days. If you want 2 days you can either enter 48h or 2d, and if you want 5,5 hours, you enter 330m.` +
         `${messages.timeFormat}`);
         return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
@@ -42,10 +46,18 @@ module.exports = async function (client, message, messageText){
         return codes.MESSAGE_REJECTED_INVALIDTIMEFORMAT;
     }
 
-    let steamUrlInfo = steamUrl.getInfo(args.id);
+    let gameInfo = {
+        price : args.price,
+        gameName : args.name,
+        url : args.url
+    };
+
+    let steamInfo = null;
+    if (args.id)
+        steamInfo = steamUrl.getInfo(args.id);
 
     // message, start, duration, steamUrlInfo, code
-    let result = await createGiveaway(message, client, start, duration, steamUrlInfo, args.key);
+    let result = await createGiveaway(message, client, start, duration, steamInfo, args.key, gameInfo);
     return result;
 
 };

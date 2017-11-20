@@ -18,7 +18,7 @@ module.exports = async function (client, message){
             let daysSince = timeHelper.daysSince(winning.ended),
                 coolDown = settings.values.winningCooldownDays - daysSince;
 
-            reply += `${winning.steamName} ${daysSince} days ago. `;
+            reply += `${winning.gameName} ${daysSince} days ago. `;
 
             let bracket = bracketHelper.fromString(winning.bracket);
             if (bracket && coolDown >= 0){

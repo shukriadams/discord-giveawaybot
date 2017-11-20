@@ -1,6 +1,6 @@
 # discord-giveawaybot
 
-Heavily inspired by https://github.com/jagrosh/GiveawayBot
+Gives away Steam games on Discord. Heavily inspired by https://github.com/jagrosh/GiveawayBot
 
 ## Requirements
 

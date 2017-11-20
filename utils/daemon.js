@@ -49,7 +49,7 @@ module.exports = async function daemon (){
                         giveaway.started = new Date().getTime();
 
                         // broadcast start to channel- post url of game
-                        let urlMessageId = await channel.send(steamUrl.getUrl(giveaway.steamId));
+                        let urlMessageId = await channel.send(giveaway.gameUrl);
 
                         let giveAwayMessage = await giveawayMessageWriter.writeNew(client, giveaway);
 
@@ -112,14 +112,14 @@ module.exports = async function daemon (){
                                     giveaway.cooldownUsers.push(user.id);
                                     let daysAgoWon = timeHelper.daysSince(comparableWinning.ended);
                                     let coolDownLeft = settings.values.winningCooldownDays - daysAgoWon;
-                                    user.send(`Sorry, but you can't enter a giveaway for ${giveaway.steamName} because you won ${comparableWinning.steamName} ${daysAgoWon} days ago. These games are in the same price range. You will have to wait ${coolDownLeft} more days to enter this price range again, but you can still enter giveaways in other price ranges.`);
+                                    user.send(`Sorry, but you can't enter a giveaway for ${giveaway.gameName} because you won ${comparableWinning.gameName} ${daysAgoWon} days ago. These games are in the same price range. You will have to wait ${coolDownLeft} more days to enter this price range again, but you can still enter giveaways in other price ranges.`);
                                 }
-                                infoLog.info(`${user.username} was on cooldown, removed from giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
+                                infoLog.info(`${user.username} was on cooldown, removed from giveaway ID ${giveaway.id} - ${giveaway.gameName}.`);
                                 continue;
                             }
 
                             giveaway.participants.push(user.id);
-                            infoLog.info(`${user.username} joined giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
+                            infoLog.info(`${user.username} joined giveaway ID ${giveaway.id} - ${giveaway.gameName}.`);
 
                         }
                     } // for
@@ -140,18 +140,18 @@ module.exports = async function daemon (){
 
                         // post public congrats message to winner in giveaway channel
                         if (giveaway.winnerId)
-                            await channel.send(`Congratulations <@${giveaway.winnerId}>, you won the draw for ${giveaway.steamName}!`);
+                            await channel.send(`Congratulations <@${giveaway.winnerId}>, you won the draw for ${giveaway.gameName}!`);
 
                         let winner = await recordFetch.fetchUser(client,giveaway.winnerId);
                         // log winner
                         if (winner){
                             let winner = await recordFetch.fetchUser(client, giveaway.winnerId);
-                            infoLog.info(`${winner.username} won initial roll for giveaway ID ${giveaway.id} - ${giveaway.steamName}.`);
+                            infoLog.info(`${winner.username} won initial roll for giveaway ID ${giveaway.id} - ${giveaway.gameName}.`);
                         }
 
                         // send direct message to winner
                         if (winner){
-                            let winnerMessage = `Congratulations, you just won ${giveaway.steamName}, courtesy of <@${giveaway.ownerId}>.`;
+                            let winnerMessage = `Congratulations, you just won ${giveaway.gameName}, courtesy of <@${giveaway.ownerId}>.`;
                             if (giveaway.code){
                                 winnerMessage += `Your game key is ${giveaway.code}.`;
                             } else {
@@ -163,7 +163,7 @@ module.exports = async function daemon (){
                         // send a message to game creator
                         let owner = await recordFetch.fetchUser(client, giveaway.ownerId);
                         if (owner){
-                            let ownerMessage = `Giveaway for ${giveaway.steamName} ended.`;
+                            let ownerMessage = `Giveaway for ${giveaway.gameName} ended.`;
                             if (winner)
                                 ownerMessage += `The winner was <@${giveaway.winnerId}>.`;
                             else

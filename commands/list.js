@@ -54,7 +54,7 @@ module.exports = async function (client, message, messageText){
                 dateCreated = dateFormat(created, 'mmm dS h:MM');
 
             chunk +=
-                `id: ${giveaway.id} steamId:${giveaway.steamId} ${giveaway.steamName} ${dateCreated} ` +
+                `id: ${giveaway.id} ${giveaway.gameName} ${dateCreated} ` +
                 ` ${giveaway.participants.length} participants`;
 
             if (giveaway.status === 'pending') {

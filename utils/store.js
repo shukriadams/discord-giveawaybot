@@ -67,9 +67,9 @@ class Store {
             cooldownUsers : record.cooldownUsers,       // array of users who are warned about cooldown. this is NOT canonical
             created : record.created,                   // javascript date in ms, when giveaway was created
             started : record.started,                   // javascript date in ms, when giveaway started
+            gameUrl : record.gameUrl,                   // url at which game info can viewed. normally this is a steam game page
             ended : record.ended,                       // javascript date in ms, when giveaway ended (or was cancelled)
-            steamId : record.steamId,                   // id of steam game being given away
-            steamName : record.steamName,               // name of steam game being given away
+            gameName : record.gameName,                 // name of game being given away
             channelId : record.channelId,               // discord channel id giveaway was created in
             price : record.price,                       // price of steam game at time giveaway created
             bracket : record.bracket,                   // bracket into which price falls

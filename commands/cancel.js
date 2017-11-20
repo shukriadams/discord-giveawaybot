@@ -70,7 +70,7 @@ module.exports = async function (client, message, messageText){
         }
 
         message.author.send('Giveaway cancelled.');
-        infoLog.info(`User ${message.author.username} cancelled giveaway ${args.id} - ${giveaway.steamName}.`);
+        infoLog.info(`User ${message.author.username} cancelled giveaway ${args.id} - ${giveaway.gameName}.`);
         return codes.MESSAGE_ACCEPTED;
     }
 
