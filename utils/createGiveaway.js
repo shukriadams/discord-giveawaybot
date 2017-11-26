@@ -4,15 +4,13 @@
 let Settings = require('./settings'),
     permissionHelper = require('./permissionHelper'),
     bracketHelper = require('./bracketHelper'),
-    SteamInfo = require('./steamInfo'),
     hi = require('./highlight'),
     codes = require('./codes'),
     infoLog = require('./logger').info,
     Store = require('./store');
 
-module.exports = async function create(message, client, start, duration, steamInfo, code, gameInfo){
+module.exports = async function create(message, client, start, duration, code, gameInfo){
     let settings = Settings.instance();
-    let getSteamInfo = SteamInfo.instance();
     let store = await Store.instance();
 
     // user needs to be admin or have giveaway permission
@@ -22,23 +20,15 @@ module.exports = async function create(message, client, start, duration, steamIn
         return codes.MESSAGE_REJECTED_PERMISSION;
     }
 
-    if (steamInfo){
-        gameInfo = await getSteamInfo.get(steamInfo.steamId, steamInfo.steamUrl);
-        if (!gameInfo.success){
-            message.author.send(`Error : ${steamInfo.steamId} is not a valid steam game id. \n` +
-                'You can get the id from the game\'s store page on Steam. For example, store.steampowered.com/app/379720/DOOM/ is the URL for Doom, and the id is 379720');
-            return codes.MESSAGE_REJECTED_INVALIDSTEAMID;
-        }
-    } else {
-        // manually validate gameInfo for name, price and url, these would otherwise be provided by steam
-        if (!gameInfo.url)
-            message.author.send(`Error : Game url is required. Use the ${hi('--url')} or ${hi('-u')} switch.`);
+    if (!gameInfo.url){
+        message.author.send(`Error : Game url is required. Use the ${hi('--url')} or ${hi('-u')} switch.`);
+        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
+    }
 
-        if (!gameInfo.price)
-            message.author.send(`Error : Game price is required. Use the ${hi('--price')} or ${hi('-p')} switch.`);
-
-        if (!gameInfo.gameName)
-            message.author.send(`Error : Game name is required. Use the ${hi('--name')} or ${hi('-n')} switch.`);
+    if (!gameInfo.price){
+        message.author.send(`Error : Game price could not be read from the link you provided, you will need to provide the game's price with ${hi('--price')} or ${hi('-p')}. ` +
+        `Price should be digits only, egs ${hi('--price 10 ')} or ${hi('--p 299')}.`);
+        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 
     let activeGiveaways = store.getActive();

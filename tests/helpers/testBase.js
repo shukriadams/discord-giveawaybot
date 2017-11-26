@@ -13,7 +13,7 @@ module.exports = function(testName, tests){
         // inject test structures into singletons
         let Settings = require('./../../utils/settings'),
             Store = require('./../../utils/store'),
-            SteamInfo = require('./../../utils/steamInfo');
+            SteamInfo = require('./../../utils/gameInfo');
 
         let store = new MockStore(),
             steamInfo = new MockSteamInfo(),

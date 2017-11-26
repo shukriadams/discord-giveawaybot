@@ -1,7 +1,7 @@
 let assert = require('./../../helpers/assert'),
     codes = require('./../../../utils/codes'),
     Store = require('./../../../utils/store'),
-    SteamInfo = require('./../../../utils/steamInfo'),
+    SteamInfo = require('./../../../utils/gameInfo'),
     GuildMember = require('./../../helpers/mockGuildMember'),
     makeMessage = require('./../../helpers/message'),
     test = require('./../../helpers/testBase');

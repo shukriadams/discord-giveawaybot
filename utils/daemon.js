@@ -6,7 +6,6 @@ let Store = require('./store'),
     winnerSelector = require('./winnerSelector'),
     channelProvider = require('./channelProvider'),
     giveawayMessageWriter = require ('./giveawayMessageWriter'),
-    steamUrl = require('./steamUrl'),
     timeHelper = require('./timeHelper'),
     Settings = require('./settings'),
     Client = require('./clientProvider');
