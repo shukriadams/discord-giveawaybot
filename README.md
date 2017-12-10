@@ -1,5 +1,7 @@
 # discord-giveawaybot
 
+[![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
+
 Gives away Steam games on Discord. Heavily inspired by https://github.com/jagrosh/GiveawayBot
 
 ## Requirements
