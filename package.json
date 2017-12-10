@@ -1,10 +1,17 @@
 {
     "name": "giveawaybot",
-    "version": "0.0.1",
-    "description": "Gives away things on Discord",
+    "version": "0.0.3",
+    "description": "A Discord bot that gives games away.",
     "private": true,
     "author": "shukri.adams@gmail.com",
     "license": "MIT",
+    "engines" : {
+        "node" : ">=0.7.x"
+    },
+    "scripts" : {
+        "start" : "node index",
+        "test" : "node tests/test"
+    },
     "dependencies" : {
         "cron" : "1.2.1",
         "request": "2.81.0",

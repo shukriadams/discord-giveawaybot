@@ -18,39 +18,16 @@ Gives away Steam games on Discord. Heavily inspired by https://github.com/jagros
 - on the bot's config page, click on "click to reveal token", copy this, and paste it into the token field of your local
 settings.json file
 
-## Setup
-
-If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
-
-    cd /vagrant
-    vagrant up
-    vagrant ssh
-
-Then in the VM run
-
-    yarn --no-bin-links
-    node index
-
-If you want to run it directly on your machine, install Node 7 or higher. Then run 
-
-    npm install
-    node index
-
-## Tests
-
-    cd /tests
-    node test
-
 ## Hosting your bot
 
-You can host a bot instance on any internet-connected machine with Nodejs 7 installed.
+You can host a bot instance on any internet-connected machine with Nodejs 7.x or higher installed.
 
     npm install
-    node index
+    npm start
 
 is all you need to setup/start it. I recommend a Linux host with PM2 to ensure your Node process stays up. Note that a
 bot instance should never be shared by multiple Discord servers - the giveaways you create on an instance are visible to
-all Discord servers that add that instance.
+all Discord servers that use that instance.
 
 ## Add your bot to your Discord server
 
@@ -160,3 +137,33 @@ This command is currently disabled.
 The bot automatically cleans out completed/cancelled competitions after 14 days.
 
 Get participate emoji characters at http://emojipedia.org
+
+## Setup
+
+If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
+
+    cd /vagrant
+    vagrant up
+    vagrant ssh
+
+Then in the VM run
+
+    yarn --no-bin-links
+    node index
+
+If you want to run it directly on your machine, install Node 7 or higher. Then run
+
+    npm install
+    node index
+
+
+## Tests
+
+    npm test
+
+or
+
+    cd /tests
+    node test
+
+If you want to test with a debugger (Webstorm, VSCode etc), point it to /tests/test.js
