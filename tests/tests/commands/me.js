@@ -15,7 +15,7 @@ test('me command', function(testBase){
         }]);
 
         let message = makeMessage(testBase.client.user.id);
-        message.content += 'me';
+        message.content = 'me';
 
         let result = await testBase.client.raiseMessageEvent(message);
         assert.equal(codes.MESSAGE_ACCEPTED, result);

@@ -1,6 +1,7 @@
 // brackets : 0-100-300     Number separated by dashes. This example creates two brackets, 0-100 and 100-300. Prices are always USD.
 
 let permissionHelper = require('./../utils/permissionHelper'),
+    argsHelper = require('./../utils/argsHelper'),
     codes = require('./../utils/codes'),
     messages = require('./../utils/messages'),
     infoLog = require('./../utils/logger').info,
@@ -10,16 +11,26 @@ let permissionHelper = require('./../utils/permissionHelper'),
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance(),
+        hasArgs = argsHelper.stringSplit(messageText).length > 1,
         args = argParser(messageText),
         isAdmin = await permissionHelper.isAdmin(client, message.author);
 
-    if (args.b){
+    // merge args
+    if (args.h) args.help = true;
+    if (args.b) args.brackets = args.b;
+
+    if (args.brackets){
         if (!isAdmin){
             message.author.send(messages.permissionError);
             return codes.MESSAGE_REJECTED_PERMISSION;
         }
 
-        let bracketParts = args.b.split('-').filter(function(part){ return part.length ? part : null; });
+        if (!(typeof args.brackets === 'string')){
+            message.author.send(`-b argument cannot be empty.`);
+            return codes.MESSAGE_REJECTED_INVALIDBRACKET;
+        }
+
+        let bracketParts = args.brackets.split('-').filter(function(part){ return part.length ? part : null; });
         if (bracketParts.length < 2){
             message.author.send(`You should specify at least one price range, ex, ${hi('brackets -b 0-100')}.`);
             return codes.MESSAGE_REJECTED_INVALIDBRACKET;
@@ -45,11 +56,11 @@ module.exports = async function (client, message, messageText){
         settings.save();
 
         message.author.send(`${hi(brackets.length)} brackets were set.`);
-        infoLog.info(`User ${message.author.username} set brackets to ${args.b}.`);
+        infoLog.info(`User ${message.author.username} set brackets to ${args.brackets}.`);
         return codes.MESSAGE_ACCEPTED;
     }
 
-    if (args.h || args.help){
+    if (args.help){
         if (!isAdmin){
             message.author.send(messages.permissionError);
             return codes.MESSAGE_REJECTED_PERMISSION;
@@ -63,6 +74,12 @@ module.exports = async function (client, message, messageText){
             `Example ${hi('brackets -b 0-50-100-200')} creates 3 brackets 0-50, 50-100, & 100-200.`);
 
         return codes.MESSAGE_ACCEPTED_HELPRETURNED;
+    }
+
+    // if args supplied by none of the previous cases caught, assume args are invalid
+    if (hasArgs){
+        message.author.send(`Invalid command. Try ${hi('brackets -h' )} for help.`);
+        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
     }
 
     // fallthrough - return current bracket info

@@ -9,7 +9,7 @@ test('help command', function(testBase){
 
         // mnimic structure of a valid discord, with invalid command
         let message = makeMessage(testBase.client.user.id);
-        message.content += 'help';
+        message.content = 'help';
 
         let result = await testBase.client.raiseMessageEvent(message);
         assert.equal(codes.MESSAGE_ACCEPTED, result);

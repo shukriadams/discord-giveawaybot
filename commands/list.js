@@ -19,6 +19,7 @@ module.exports = async function (client, message, messageText){
         chunks = [];
 
     if (args.h) args.help = true;
+
     if (args.help) {
         message.reply(
             `${hi('list')} returns a list of giveaways.\n\n` +

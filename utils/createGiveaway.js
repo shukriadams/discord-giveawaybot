@@ -22,13 +22,13 @@ module.exports = async function create(message, client, start, duration, code, g
 
     if (!gameInfo.url){
         message.author.send(`Error : Game url is required. Use the ${hi('--url')} or ${hi('-u')} switch.`);
-        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
+        return codes.MESSAGE_REJECTED_INVALIDGAMEURL;
     }
 
     if (!gameInfo.price){
         message.author.send(`Error : Game price could not be read from the link you provided, you will need to provide the game's price with ${hi('--price')} or ${hi('-p')}. ` +
         `Price should be digits only, egs ${hi('--price 10 ')} or ${hi('--p 299')}.`);
-        return codes.MESSAGE_REJECTED_INVALIDARGUMENTS;
+        return codes.MESSAGE_REJECTED_NOPRICE;
     }
 
     let activeGiveaways = store.getActive();

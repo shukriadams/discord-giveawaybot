@@ -21,6 +21,10 @@ module.exports = async function (client, message, messageText){
         settings = Settings.instance(),
         args = argParser(messageText);
 
+    // merge args
+    if (args.h) args.help = true;
+    if (args.i) args.id = args.i;
+
     if (args.id){
 
         // ensure int
@@ -47,9 +51,10 @@ module.exports = async function (client, message, messageText){
             return codes.MESSAGE_REJECTED_GIVEAWAYCLOSED;
         }
 
-        // this is prevent giveaway owners from wiping cooldown wins
+        // if user is not admin, user must be owner. owners are not allowed to cancel giveaways that are already closed
+        // as this wipes the game from winning history, and can be abused. only admins are allowed to do this.
         if (giveaway.status === 'closed' && !isAdmin){
-            message.author.send('Cancel failed - only an admin can change a closed giveaway to cancel');
+            message.author.send('Cancel failed - only an admin can cancel a closed giveaway.');
             return codes.MESSAGE_REJECTED_PERMISSION;
         }
 
@@ -74,7 +79,7 @@ module.exports = async function (client, message, messageText){
         return codes.MESSAGE_ACCEPTED;
     }
 
-    if (args.h || args.help){
+    if (args.help){
         message.author.send(
             `${hi('cancel')} stops an ongoing or queued giveaway. Only admins or the giveaway creator can cancel a giveaway.\n\n` +
             `Expected : ${hi('cancel --id giveawayId')} \n`+

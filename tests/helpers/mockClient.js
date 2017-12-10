@@ -17,14 +17,7 @@ class Guild {
     }
 
     async fetchMember(){
-        if (this._nextMember){
-            try{
-                return this._nextMember;
-            } finally {
-                this._nextMember = null;
-            }
-        } else
-            throw 'member not set';
+        return this._nextMember;
     }
 }
 
@@ -43,10 +36,7 @@ class Channel {
     }
 
     async send(){
-        if (this._nextMessage)
-            return this._nextMessage;
-        else
-            throw 'message not set';
+        return this._nextMessage;
     }
 }
 

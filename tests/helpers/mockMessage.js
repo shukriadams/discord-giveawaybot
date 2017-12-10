@@ -2,6 +2,11 @@ class MockMessage {
     constructor(){
         this.id = null;
     }
+
+    edit (){
+
+    }
+
     delete(){
 
     }

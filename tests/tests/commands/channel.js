@@ -8,7 +8,7 @@ test('channel command', function(testBase){
 
     it('should reject a user that is not admin', async function() {
 
-        // mnimic structure of a valid discord, with invalid command
+        // mimic structure of a valid discord, with invalid command
         let message = makeMessage(testBase.client.user.id);
         message.content = `<@${testBase.client.user.id}> channel`;
         message.channel.type = '';
@@ -24,7 +24,7 @@ test('channel command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        // mnimic structure of a valid discord, with invalid command
+        // mimic structure of a valid discord, with invalid command
         let message = makeMessage(testBase.client.user.id);
         message.content = 'channel';
         message.channel.type = 'dm';
@@ -39,7 +39,7 @@ test('channel command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        // mnimic structure of a valid discord, with invalid command
+        // mimic structure of a valid discord, with invalid command
         let message = makeMessage(testBase.client.user.id);
         message.content = `<@${testBase.client.user.id}> channel`;
         message.channel.type = '';

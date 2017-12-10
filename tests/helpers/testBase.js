@@ -13,7 +13,7 @@ module.exports = function(testName, tests){
         // inject test structures into singletons
         let Settings = require('./../../utils/settings'),
             Store = require('./../../utils/store'),
-            SteamInfo = require('./../../utils/gameInfo');
+            GameInfo = require('./../../utils/gameInfo');
 
         let store = new MockStore(),
             steamInfo = new MockSteamInfo(),
@@ -26,7 +26,7 @@ module.exports = function(testName, tests){
             }};
 
         // set tes shims before importing bot
-        SteamInfo.set(steamInfo);
+        GameInfo.set(steamInfo);
         Settings.set(settings);
         Store.set(store);
 
