@@ -19,11 +19,11 @@ module.exports = {
         let mins = Math.floor(diff / (1000 * 60));
 
         if (days >= 1)
-            return days + 'D';
+            return days + 'd';
         if (hours >= 1)
-            return hours + 'H';
+            return hours + 'h';
 
-        return mins + 'M';
+        return mins + 'm';
     },
 
     remaining : function(before, after){
@@ -63,6 +63,13 @@ module.exports = {
             string = '< a minute';
 
         return string;
+    },
+
+    toShortDateTimeString : function(datetime){
+        if (typeof datetime === 'number')
+            datetime = new Date(datetime);
+
+        return `${datetime.getFullYear()}/${datetime.getMonth()}/${datetime.getDate()} ${datetime.toLocaleTimeString()}`;
     },
 
     // returns formatted date string for the time + minutes.

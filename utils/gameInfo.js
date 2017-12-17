@@ -73,7 +73,7 @@ class GameInfo{
      * Tries to convert a steam store url to a steam api url
      */
     _toSteamApiUrl(url){
-        let pattern = /\/app\/([0-9]*)\//,
+        let pattern = /\/app\/([0-9]*)\/?/,
             matches = url.toLowerCase().match(pattern);
 
         if (matches && matches.length === 2)

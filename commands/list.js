@@ -55,22 +55,25 @@ module.exports = async function (client, message, messageText){
                 dateCreated = dateFormat(created, 'mmm dS h:MM');
 
             chunk +=
-                `id: ${giveaway.id} ${giveaway.gameName} ${dateCreated} ` +
-                ` ${giveaway.participants.length} participants`;
+                `id: ${giveaway.id} ${giveaway.gameName} ${dateCreated}, ` +
+                ` ${giveaway.participants.length} participants, `;
 
             if (giveaway.status === 'pending') {
-                chunk += ' starts at ' + timeHelper.timePlusMinutes(giveaway.created, giveaway.start);
+                chunk += ' Starts at ' + timeHelper.timePlusMinutes(giveaway.created, giveaway.start);
             } else if (giveaway.status === 'open') {
-                chunk += ' ends at ' + timeHelper.timePlusMinutes(giveaway.started, giveaway.durationMinutes);
+                chunk += ' Ends at ' + timeHelper.timePlusMinutes(giveaway.started, giveaway.durationMinutes);
             } else if (giveaway.status === 'closed') {
                 let span = timeHelper.timespan(created, giveaway.ended);
 
                 created.setMinutes(created.getMinutes() + giveaway.ended);
-                chunk +=` ended ${dateCreated} ran for ${span}`;
+                chunk +=` Ended ${dateCreated} ran for ${span}`;
+            } else if (giveaway.status === 'cancelled') {
+                let cancelledDate = timeHelper.toShortDateTimeString(giveaway.ended);
+                chunk +=` Cancelled at ${cancelledDate}.`;
             }
 
             if (giveaway.winnerId) {
-                chunk += ` winner: <@${giveaway.winnerId}>`;
+                chunk += ` Winner: <@${giveaway.winnerId}>`;
             }
 
             chunk += '\n\n';

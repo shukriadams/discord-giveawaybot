@@ -138,18 +138,18 @@ module.exports = async function daemon (){
                         giveawayMessageWriter.writeWinner(giveAwayMessage, giveaway);
 
                         // post public congrats message to winner in giveaway channel
-                        if (giveaway.winnerId)
+                        let winner = null;
+                        if (giveaway.winnerId){
                             await channel.send(`Congratulations <@${giveaway.winnerId}>, you won the draw for ${giveaway.gameName}!`);
+                            winner = await recordFetch.fetchUser(client,giveaway.winnerId);
+                        }
 
-                        let winner = await recordFetch.fetchUser(client,giveaway.winnerId);
                         // log winner
                         if (winner){
                             let winner = await recordFetch.fetchUser(client, giveaway.winnerId);
                             infoLog.info(`${winner.username} won initial roll for giveaway ID ${giveaway.id} - ${giveaway.gameName}.`);
-                        }
 
-                        // send direct message to winner
-                        if (winner){
+                            // send direct message to winner
                             let winnerMessage = `Congratulations, you just won ${giveaway.gameName}, courtesy of <@${giveaway.ownerId}>.`;
                             if (giveaway.code){
                                 winnerMessage += `Your game key is ${giveaway.code}.`;

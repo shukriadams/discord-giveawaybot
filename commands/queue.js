@@ -85,7 +85,7 @@ module.exports = async function (client, message, messageText){
             url : args[3]
         });
 
-        let result = await createGiveaway(message, client, null, duration, null, gameInfo);
+        let result = await createGiveaway(message, client, start, duration, null, gameInfo);
         return result;
     }
 

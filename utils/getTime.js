@@ -5,6 +5,9 @@
  * Returns null if input doesn't match the shorthand format.
  */
 module.exports = function getTime(input){
+    if (input === null || input === undefined)
+        return null;
+
     let time = input.match(/\d/g);
     if (!time)
         return null;
