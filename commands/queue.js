@@ -16,10 +16,10 @@ module.exports = async function (client, message, messageText){
 
     function showHelp(){
         message.author.send(
-            `${hi('Queue')} creates a giveaway, but lets you specify a time in the future when the giveaway will publicly commence.\n\n` +
-            `Simple : ${hi('queue startTime durationTime SteamUrl')}. This method doesn't use switches, but works only on standard Steam games. \n` +
-            `More advanced : ${hi('queue -s startTime -d durationTime -u SteamUrl -k key')}. Works only for standard Steam games. Key is the code for activating the game, and is optional. The winner will automatically be messaged this key when the giveaway ends. \n` +
-            `Very advanced : ${hi('queue -s startTime -d durationTime -u url -p price -k key')}. Works for any game, but you have to manually enter the price. Key is optional. \n`+
+            `${hi('queue')} creates a giveaway, but lets you specify a time in the future when the giveaway will publicly commence.\n\n` +
+            `Simple : ${hi('queue startTime durationTime SteamUrl')}. This method doesn't use switches, but works only on standard Steam games. \n\n` +
+            `More advanced : ${hi('queue -s startTime -d durationTime -u SteamUrl -k key')}. Works only for standard Steam games. Key is the code for activating the game, and is optional. The winner will automatically be messaged this key when the giveaway ends. \n\n` +
+            `Very advanced : ${hi('queue -s startTime -d durationTime -u url -p price -k key')}. Works for any game, but you have to manually enter the price. Key is optional. \n\n`+
             `Example : ${hi('queue -s 5m -d 1h -u http://store.steampowered.com/app/524220 -k 12345-abcde-12346')} queues a giveaway that starts in 5 minutes, runs for 1 hour, gives away Nier Automata, and messages the key 12345-abcde-12346 to the winner.\n` +
             `Use EITHER minutes, hours or days. If you want 2 days you can either enter 48h or 2d, and if you want 5,5 hours, you enter 330m.` +
             `${messages.timeFormat}`);
