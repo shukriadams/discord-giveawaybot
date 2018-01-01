@@ -107,7 +107,9 @@ class GameInfo{
         // if app, the first property returned should have a success=true property
         if (bodyJson[steamId].success){
             // steam price is listed in cents of currency, /100 to convert to dollars or euros
-            args.price = bodyJson[steamId].data.price_overview.initial / 100;
+            // note : free games have no price
+            let price = bodyJson[steamId].data && bodyJson[steamId].data.price_overview && bodyJson[steamId].data.price_overview.initial ? bodyJson[steamId].data.price_overview.initial : 0;
+            args.price = price / 100;
             args.gameName = bodyJson[steamId].data.name;
             args.success = true;
         }
