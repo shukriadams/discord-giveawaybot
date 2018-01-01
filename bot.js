@@ -3,6 +3,7 @@ let codes = require('./utils/codes'),
     logger = require('./utils/logger'),
     Client = require('./utils/clientProvider'),
     hi = require('./utils/highlight'),
+    process = require('process'),
     Settings = require('./utils/settings');
 
 class Bot{
@@ -40,6 +41,10 @@ class Bot{
             this.client.on('message', async function(message) {
                 return this._onMessage(message)
             }.bind(this));
+
+            process.on('unhandledRejection', (reason) => {
+                logger.error.error('Unhandled promise : ' + reason);
+            });
 
         } catch (ex){
             this._handleUnexpectedError(ex);

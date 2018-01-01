@@ -11,6 +11,14 @@ module.exports = {
         return guildMember.hasPermission(Discord.Permissions.FLAGS.MANAGE_CHANNELS);
     },
 
+    canManageMessages : async function(client, discordUser){
+        let guildMember = await recordFetch.fetchGuildMember(client, discordUser);
+        if (!guildMember)
+            return false;
+
+        return guildMember.hasPermission(Discord.Permissions.FLAGS.MANAGE_MESSAGES);
+    },
+
     isAdminOrHasRole : async function(client, discordUser, roleName){
         let guildMember = await recordFetch.fetchGuildMember(client, discordUser);
         if (!guildMember)

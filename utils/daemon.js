@@ -7,6 +7,8 @@ let Store = require('./store'),
     channelProvider = require('./channelProvider'),
     giveawayMessageWriter = require ('./giveawayMessageWriter'),
     timeHelper = require('./timeHelper'),
+    permissionHelper = require('./permissionHelper'),
+    State = require('./state'),
     Settings = require('./settings'),
     Client = require('./clientProvider');
     infoLog = require('./logger').info,
@@ -18,6 +20,7 @@ let Store = require('./store'),
 module.exports = async function daemon (){
 
     let settings = Settings.instance(),
+        state = State.instance(),
         client = Client.instance();
 
 
@@ -88,6 +91,7 @@ module.exports = async function daemon (){
                         if (reaction._emoji.name !== settings.values.joinGiveawayResponseCharacter)
                             continue;
 
+                        // WARNING : reaction.users is unreliable, but fetchUsers() doesn't allow more than 100 users.
                         for (let user of reaction.users.array()){
 
                             // ignore bot's own reaction
@@ -102,8 +106,21 @@ module.exports = async function daemon (){
                             let comparableWinning = store.getComparableWinning(user.id, giveaway.price);
                             if (comparableWinning){
 
-                                // Note - this can fail if the bot doesn't have permission do delete a reaction, but it shouldn't throw an exception
-                                reaction.remove(user);
+                                let canManageMessages = await permissionHelper.canManageMessages(client, client.user);
+
+                                // try to delete user response, this will fail if the bot doesn't permission to, if so
+                                // write a status message
+                                if (canManageMessages){
+                                    try{
+                                        await reaction.remove(user);
+                                        state.remove('message_permission');
+                                    } catch(ex){
+                                        infoLog.info(`failed to remove participation emote from user ${user.username} on ${giveaway.id} - ${giveaway.gameName}.`);
+                                    }
+                                }
+                                else
+                                    state.add('message_permission', 'Cannot delete user responses, pleased give me permission "Manage Messages".');
+
 
                                 // inform user of removal once only. This mechanism is purely for flooding protection in event of the removal failing
                                 // reaction
@@ -183,8 +200,6 @@ module.exports = async function daemon (){
                         }
                     }
                 }
-
-
 
             } // for
 

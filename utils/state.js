@@ -11,7 +11,7 @@ class State
     }
 
     add(category, message){
-        this[category] = message;
+        this.content[category] = message;
     }
 
     remove (category){

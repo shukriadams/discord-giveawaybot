@@ -18,7 +18,7 @@ module.exports = async function (client, message){
 
     if (items.length){
         for (let item in items){
-            reply += `${item}\n`;
+            reply += `${items[item]}\n`;
         }
     } else {
         reply = 'Nothing to report!'
