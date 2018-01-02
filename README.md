@@ -140,7 +140,15 @@ The bot automatically cleans out completed/cancelled competitions after 14 days.
 
 Get participate emoji characters at http://emojipedia.org
 
-## Setup
+## Development
+
+The bot is basically two processes
+
+- 1) a message handler that receives message instructions from Discord users and responds to them immediately.
+- 2) a daemon which ticks at an interval, and which carries out instructions that cannot be handled immediately upon
+     receipt.
+
+All other files are helpers for the above.
 
 If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
 

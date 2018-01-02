@@ -25,6 +25,9 @@ class Settings {
             if (this.values.maxConcurrentGiveaways === undefined)
                 this.values.maxConcurrentGiveaways = 5;
 
+            if (this.values.errorNickname === undefined)
+                this.values.errorNickname = "'!ERROR!";
+
             if (this.values.joinGiveawayResponseCharacter === undefined)
                 this.values.joinGiveawayResponseCharacter = '🎉';
         }

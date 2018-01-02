@@ -19,7 +19,7 @@ module.exports = {
     fetchUser : async function(client, id){
         try{
             return await client.fetchUser(id);
-        } catch(ex){
+        }catch(ex){
             // this exception would occur only if a user account disappears from discord, not sure if this ever happens
             // and cannot test, but for safety, log exception so it doesn't die in silence, and then continue.
             winston.error(ex);
@@ -28,10 +28,9 @@ module.exports = {
     },
 
     fetchGuildMember : async function(client, user){
-        try
-        {
+        try{
             return await client.channels.array()[0].guild.fetchMember(user)
-        } catch(ex){
+        }catch(ex){
             // this exception would occur only if a user account disappears from discord, not sure if this ever happens
             // and cannot test, but for safety, log exception so it doesn't die in silence, and then continue.
             winston.error(ex);
