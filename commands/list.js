@@ -9,9 +9,9 @@ let argParser = require('minimist-string'),
     hi = require('./../utils/highlight');
 
 module.exports = async function (client, message, messageText){
-    let settings = Settings.instance();
-    let args = argParser(messageText);
-    let store = await Store.instance();
+    let settings = Settings.instance(),
+        args = argParser(messageText),
+        store = await Store.instance();
 
     // discord message size limit is 2000 chars, to prevent list from breaking this we split
     // reply into chunks string array

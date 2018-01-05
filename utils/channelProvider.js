@@ -1,7 +1,7 @@
 /**
  * Gets a channel for the bot to write to.
  */
-let Settings = require('./../utils/settings'),
+let Settings = require('./settings'),
     State = require('./state');
 
 module.exports = function(client){

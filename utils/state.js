@@ -19,6 +19,14 @@ class State
             delete this.content[category];
     }
 
+    clear(){
+        this.content = {};
+    }
+
+    length(){
+        return Object.keys(this.content).length;
+    }
+
     get(){
         let state = [];
         for (let property in this.content)

@@ -9,7 +9,6 @@ let Store = require('./store'),
     permissionHelper = require('./permissionHelper'),
     State = require('./state'),
     Settings = require('./settings'),
-    alertHelper = require('./alertHelper'),
     infoLog = require('./logger').info,
     codes = require('./codes'),
     recordFetch = require('./recordFetch'),
@@ -25,7 +24,6 @@ module.exports = async function tick(){
 
     // channel not set, can't proceed
     if (!channel){
-        alertHelper.enable();
         state.add('channel_not_set', 'Giveaway channel not set, or invalid. Please reset channel.');
         return codes.MESSAGE_REJECTED_CHANNELNOTSET;
     }
@@ -99,17 +97,17 @@ module.exports = async function tick(){
 
                         // try to delete user response, this will fail if the bot doesn't permission to, if so
                         // write a status message
+                        let deleteException;
                         if (canManageMessages){
                             try{
                                 await reaction.remove(user);
                                 state.remove('message_permission');
                             } catch(ex){
-                                infoLog.info(`failed to remove participation emote from user ${user.username} on ${giveaway.id} - ${giveaway.gameName}.`);
+                                deleteException = ex;
                             }
                         }
                         else {
                             state.add('message_permission', 'Cannot delete user responses, pleased give me permission "Manage Messages".');
-                            alertHelper.enable();
                         }
 
                         // inform user of removal once only. This mechanism is purely for flooding protection in event of the removal failing
@@ -119,7 +117,12 @@ module.exports = async function tick(){
                             let daysAgoWon = timeHelper.daysSince(comparableWinning.ended);
                             let coolDownLeft = settings.values.winningCooldownDays - daysAgoWon;
                             user.send(`Sorry, but you can't enter a giveaway for ${giveaway.gameName} because you won ${comparableWinning.gameName} ${daysAgoWon} days ago. These games are in the same price range. You will have to wait ${coolDownLeft} more days to enter this price range again, but you can still enter giveaways in other price ranges.`);
+
+                            // log exception here to prevent flooding
+                            if (deleteException)
+                                infoLog.info(`Failed to remove participation emote from user ${user.username} on ${giveaway.id} - ${giveaway.gameName} (this exception will be logged once per user per giveaway) : ${deleteException}`);
                         }
+
                         infoLog.info(`${user.username} was on cooldown, removed from giveaway ID ${giveaway.id} - ${giveaway.gameName}.`);
                         continue;
                     }

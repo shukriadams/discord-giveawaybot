@@ -4,6 +4,7 @@ let codes = require('./utils/codes'),
     Client = require('./utils/clientProvider'),
     hi = require('./utils/highlight'),
     process = require('process'),
+    State = require('./utils/state'),
     Settings = require('./utils/settings');
 
 class Bot{
@@ -13,6 +14,7 @@ class Bot{
         {
             this.settings = Settings.instance();
             this.client = Client.instance();
+            this.state = State.instance();
 
             if (this.settings.failed){
                 console.log('settings.json not found');
@@ -112,6 +114,7 @@ class Bot{
                 let messageText  = message.content;
                 if (messageText.indexOf(atBot) === 0)
                     messageText = messageText.substr(atBot.length);
+
                 messageText = messageText.trim();
 
                 // get first word of incoming message, this will be the command the user is trying to execute
@@ -134,6 +137,9 @@ class Bot{
 
                 let result = await command(this.client, message, messageText);
                 resolve(result);
+
+                if (requestedCommand !== 'status' && this.state.length())
+                    message.author.send(`There are issues with the bot - use ${hi('status')} for more info, or ask an admin to do so.`);
 
             } catch (ex) {
                 this._handleUnexpectedError(ex, message);
