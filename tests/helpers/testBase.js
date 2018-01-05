@@ -30,7 +30,7 @@ module.exports = function(testName, tests){
         Settings.set(settings);
         Store.set(store);
 
-        let Bot = require('./../../bot'),
+        let Bot = require('../../lib/bot'),
             Client = require('./../../lib/clientProvider'),
             bot = new Bot(),
             client = new MockClient(bot);
