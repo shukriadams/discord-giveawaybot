@@ -2,6 +2,7 @@
 let codes = require('./utils/codes'),
     logger = require('./utils/logger'),
     Client = require('./utils/clientProvider'),
+    Daemon = require('./utils/daemon'),
     hi = require('./utils/highlight'),
     process = require('process'),
     State = require('./utils/state'),
@@ -48,6 +49,17 @@ class Bot{
                 logger.error.error('Unhandled promise : ' + reason);
             });
 
+            // to avoid making the public bot start function async, wrap the async daemon start in inline async call
+            (async function(){
+                try
+                {
+                    let daemon = Daemon.instance();
+                    await daemon.start();
+                } catch (ex){
+                    this._handleUnexpectedError(ex);
+                }
+            }.bind(this))();
+
         } catch (ex){
             this._handleUnexpectedError(ex);
         }
@@ -61,16 +73,6 @@ class Bot{
                 message.author.send('An unexpected error occurred and has been logged.');
         } catch (ex){
             console.log('An unexpected error occurred, failed to return message to user.', ex);
-        }
-    }
-
-    async startDaemon(){
-        try
-        {
-            let daemon = require('./utils/daemon');
-            await daemon();
-        } catch (ex){
-            this._handleUnexpectedError(ex);
         }
     }
 

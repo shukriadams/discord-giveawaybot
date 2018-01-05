@@ -35,5 +35,3 @@ module.exports = {
     error : errorLog,
     info : infoLog
 };
-//logger.error('nada');
-//winston.error('oops');
