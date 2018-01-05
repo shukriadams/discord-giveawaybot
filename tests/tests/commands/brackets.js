@@ -1,8 +1,8 @@
 let assert = require('./../../helpers/assert'),
     GuildMember = require('./../../helpers/mockGuildMember'),
-    codes = require('./../../../utils/codes'),
+    codes = require('./../../../lib/codes'),
     makeMessage = require('./../../helpers/message'),
-    Settings = require('./../../../utils/settings'),
+    Settings = require('./../../../lib/settings'),
     test = require('./../../helpers/testBase');
 
 test('bracket command', function(testBase){

@@ -1,5 +1,5 @@
 let assert = require('./../helpers/assert'),
-    codes = require('./../../utils/codes'),
+    codes = require('./../../lib/codes'),
     makeMessage = require('./../helpers/message'),
     Collection = require('./../helpers/collection'),
     test = require('./../helpers/testBase');

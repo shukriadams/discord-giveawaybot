@@ -1,6 +1,6 @@
 let assert = require('./../../helpers/assert'),
-    codes = require('./../../../utils/codes'),
-    Store = require('./../../../utils/store'),
+    codes = require('./../../../lib/codes'),
+    Store = require('./../../../lib/store'),
     GuildMember = require('./../../helpers/mockGuildMember'),
     MockMessage = require('./../../helpers/mockMessage'),
     makeMessage = require('./../../helpers/message'),

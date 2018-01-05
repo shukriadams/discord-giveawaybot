@@ -11,9 +11,9 @@ module.exports = function(testName, tests){
         this.timeout(5000);
 
         // inject test structures into singletons
-        let Settings = require('./../../utils/settings'),
-            Store = require('./../../utils/store'),
-            GameInfo = require('./../../utils/gameInfo');
+        let Settings = require('./../../lib/settings'),
+            Store = require('./../../lib/store'),
+            GameInfo = require('./../../lib/gameInfo');
 
         let store = new MockStore(),
             steamInfo = new MockSteamInfo(),
@@ -31,7 +31,7 @@ module.exports = function(testName, tests){
         Store.set(store);
 
         let Bot = require('./../../bot'),
-            Client = require('./../../utils/clientProvider'),
+            Client = require('./../../lib/clientProvider'),
             bot = new Bot(),
             client = new MockClient(bot);
 

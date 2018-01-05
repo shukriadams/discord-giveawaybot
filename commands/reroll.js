@@ -1,17 +1,17 @@
 // reroll ID : rerolls the winner of a competition, cancelled winners cannot win again, only admins can reroll
 
 let argParser = require('minimist-string'),
-    Store = require('./../utils/store'),
-    codes = require('./../utils/codes'),
-    hi = require('./../utils/highlight'),
-    recordFetch = require('./../utils/recordFetch'),
-    infoLog = require('./../utils/logger').info,
-    messages = require('./../utils/messages'),
-    Settings = require('./../utils/settings'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    channelProvider = require('./../utils/channelProvider'),
-    giveawayMessageWriter = require('./../utils/giveawayMessageWriter'),
-    winnerSelector = require('./../utils/winnerSelector');
+    Store = require('./../lib/store'),
+    codes = require('./../lib/codes'),
+    hi = require('./../lib/highlight'),
+    recordFetch = require('./../lib/recordFetch'),
+    infoLog = require('./../lib/logger').info,
+    messages = require('./../lib/messages'),
+    Settings = require('./../lib/settings'),
+    permissionHelper = require('./../lib/permissionHelper'),
+    channelProvider = require('./../lib/channelProvider'),
+    giveawayMessageWriter = require('./../lib/giveawayMessageWriter'),
+    winnerSelector = require('./../lib/winnerSelector');
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance,

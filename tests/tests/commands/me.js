@@ -1,6 +1,6 @@
 let assert = require('./../../helpers/assert'),
-    codes = require('./../../../utils/codes'),
-    Store = require('./../../../utils/store'),
+    codes = require('./../../../lib/codes'),
+    Store = require('./../../../lib/store'),
     makeMessage = require('./../../helpers/message'),
     test = require('./../../helpers/testBase');
 

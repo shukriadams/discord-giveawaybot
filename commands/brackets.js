@@ -1,13 +1,13 @@
 // brackets : 0-100-300     Number separated by dashes. This example creates two brackets, 0-100 and 100-300. Prices are always USD.
 
-let permissionHelper = require('./../utils/permissionHelper'),
-    argsHelper = require('./../utils/argsHelper'),
-    codes = require('./../utils/codes'),
-    messages = require('./../utils/messages'),
-    infoLog = require('./../utils/logger').info,
+let permissionHelper = require('./../lib/permissionHelper'),
+    argsHelper = require('./../lib/argsHelper'),
+    codes = require('./../lib/codes'),
+    messages = require('./../lib/messages'),
+    infoLog = require('./../lib/logger').info,
     argParser = require('minimist-string'),
-    hi = require('./../utils/highlight'),
-    Settings = require('./../utils/settings');
+    hi = require('./../lib/highlight'),
+    Settings = require('./../lib/settings');
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance(),

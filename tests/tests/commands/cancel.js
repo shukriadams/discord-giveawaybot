@@ -1,8 +1,8 @@
 let assert = require('./../../helpers/assert'),
-    codes = require('./../../../utils/codes'),
+    codes = require('./../../../lib/codes'),
     GuildMember = require('./../../helpers/mockGuildMember'),
     makeMessage = require('./../../helpers/message'),
-    Store = require('./../../../utils/store'),
+    Store = require('./../../../lib/store'),
     test = require('./../../helpers/testBase');
 
 test('cancel command', async function(testBase){

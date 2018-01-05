@@ -5,15 +5,15 @@
  * cancel {ID}
  */
 let argParser = require('minimist-string'),
-    Store = require('./../utils/store'),
-    codes = require('./../utils/codes'),
-    recordFetch = require('./../utils/recordFetch'),
-    channelProvider = require('./../utils/channelProvider'),
-    Settings = require('./../utils/settings'),
-    messages = require('./../utils/messages'),
-    infoLog = require('./../utils/logger').info,
-    hi = require('./../utils/highlight'),
-    permissionHelper = require('./../utils/permissionHelper');
+    Store = require('./../lib/store'),
+    codes = require('./../lib/codes'),
+    recordFetch = require('./../lib/recordFetch'),
+    channelProvider = require('./../lib/channelProvider'),
+    Settings = require('./../lib/settings'),
+    messages = require('./../lib/messages'),
+    infoLog = require('./../lib/logger').info,
+    hi = require('./../lib/highlight'),
+    permissionHelper = require('./../lib/permissionHelper');
 
 module.exports = async function (client, message, messageText){
 

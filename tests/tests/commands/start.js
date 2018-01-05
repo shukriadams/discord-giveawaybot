@@ -1,6 +1,6 @@
 let assert = require('./../../helpers/assert'),
-    codes = require('./../../../utils/codes'),
-    SteamInfo = require('./../../../utils/gameInfo'),
+    codes = require('./../../../lib/codes'),
+    SteamInfo = require('./../../../lib/gameInfo'),
     GuildMember = require('./../../helpers/mockGuildMember'),
     makeMessage = require('./../../helpers/message'),
     test = require('./../../helpers/testBase');

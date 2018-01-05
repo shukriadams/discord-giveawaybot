@@ -1,11 +1,11 @@
 let argParser = require('minimist-string'),
-    argsHelper = require('./../utils/argsHelper'),
-    getTime = require('./../utils/getTime'),
-    createGiveaway = require('./../utils/createGiveaway'),
-    messages = require('./../utils/messages'),
-    GameInfo = require('./../utils/gameInfo'),
-    hi = require('./../utils/highlight'),
-    codes = require('./../utils/codes');
+    argsHelper = require('./../lib/argsHelper'),
+    getTime = require('./../lib/getTime'),
+    createGiveaway = require('./../lib/createGiveaway'),
+    messages = require('./../lib/messages'),
+    GameInfo = require('./../lib/gameInfo'),
+    hi = require('./../lib/highlight'),
+    codes = require('./../lib/codes');
 
 module.exports = async function (client, message, messageText){
 

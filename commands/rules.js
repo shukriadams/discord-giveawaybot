@@ -1,10 +1,10 @@
 // help : displays help info
 let argParser = require('minimist-string'),
-    codes = require('./../utils/codes'),
-    Settings = require('./../utils/settings'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    messages = require('./../utils/messages'),
-    hi = require('./../utils/highlight');
+    codes = require('./../lib/codes'),
+    Settings = require('./../lib/settings'),
+    permissionHelper = require('./../lib/permissionHelper'),
+    messages = require('./../lib/messages'),
+    hi = require('./../lib/highlight');
 
 module.exports = async function (client, message, messageText){
 

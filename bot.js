@@ -1,12 +1,12 @@
 // use for auth url
-let codes = require('./utils/codes'),
-    logger = require('./utils/logger'),
-    Client = require('./utils/clientProvider'),
-    Daemon = require('./utils/daemon'),
-    hi = require('./utils/highlight'),
+let codes = require('./lib/codes'),
+    logger = require('./lib/logger'),
+    Client = require('./lib/clientProvider'),
+    Daemon = require('./lib/daemon'),
+    hi = require('./lib/highlight'),
     process = require('process'),
-    State = require('./utils/state'),
-    Settings = require('./utils/settings');
+    State = require('./lib/state'),
+    Settings = require('./lib/settings');
 
 class Bot{
 

@@ -1,9 +1,9 @@
 // list : list everything
-let timeHelper = require('./../utils/timeHelper'),
-    bracketHelper = require('./../utils/bracketHelper'),
-    codes = require('./../utils/codes'),
-    Store = require('./../utils/store'),
-    Settings = require('./../utils/settings');
+let timeHelper = require('./../lib/timeHelper'),
+    bracketHelper = require('./../lib/bracketHelper'),
+    codes = require('./../lib/codes'),
+    Store = require('./../lib/store'),
+    Settings = require('./../lib/settings');
 
 module.exports = async function (client, message){
 

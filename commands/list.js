@@ -1,12 +1,12 @@
 // list : list everything
 let argParser = require('minimist-string'),
     dateFormat = require('dateformat'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    Settings = require('./../utils/settings'),
-    timeHelper = require('./../utils/timeHelper'),
-    Store = require('./../utils/store'),
-    codes = require('./../utils/codes'),
-    hi = require('./../utils/highlight');
+    permissionHelper = require('./../lib/permissionHelper'),
+    Settings = require('./../lib/settings'),
+    timeHelper = require('./../lib/timeHelper'),
+    Store = require('./../lib/store'),
+    codes = require('./../lib/codes'),
+    hi = require('./../lib/highlight');
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance(),

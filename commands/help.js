@@ -1,8 +1,8 @@
 // help : displays help info
-let codes = require('./../utils/codes'),
-    Settings = require('./../utils/settings'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    hi = require('./../utils/highlight');
+let codes = require('./../lib/codes'),
+    Settings = require('./../lib/settings'),
+    permissionHelper = require('./../lib/permissionHelper'),
+    hi = require('./../lib/highlight');
 
 module.exports = async function (client, message){
 

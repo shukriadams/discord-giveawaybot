@@ -1,9 +1,9 @@
-let State = require('./../utils/state'),
-    permissionHelper = require('./../utils/permissionHelper'),
-    messages = require('./../utils/messages'),
+let State = require('./../lib/state'),
+    permissionHelper = require('./../lib/permissionHelper'),
+    messages = require('./../lib/messages'),
     argParser = require('minimist-string'),
-    hi = require('./../utils/highlight'),
-    codes = require('./../utils/codes');
+    hi = require('./../lib/highlight'),
+    codes = require('./../lib/codes');
 
 module.exports = async function (client, message, messageText){
 

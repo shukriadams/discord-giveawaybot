@@ -1,12 +1,12 @@
 // cancel ID : cancel an active giveaway if you are admin, or if competition hasn't started yet and you created it
 
-let Settings = require('./../utils/settings'),
-    codes = require('./../utils/codes'),
-    messages = require('./../utils/messages'),
+let Settings = require('./../lib/settings'),
+    codes = require('./../lib/codes'),
+    messages = require('./../lib/messages'),
     argParser = require('minimist-string'),
-    infoLog = require('./../utils/logger').info,
-    hi = require('./../utils/highlight'),
-    permissionHelper = require('./../utils/permissionHelper');
+    infoLog = require('./../lib/logger').info,
+    hi = require('./../lib/highlight'),
+    permissionHelper = require('./../lib/permissionHelper');
 
 module.exports = async function (client, message, messageText){
 
