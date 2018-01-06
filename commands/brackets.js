@@ -4,13 +4,14 @@ let permissionHelper = require('./../lib/permissionHelper'),
     argsHelper = require('./../lib/argsHelper'),
     codes = require('./../lib/codes'),
     messages = require('./../lib/messages'),
-    infoLog = require('./../lib/logger').info,
+    Logger = require('./../lib/logger'),
     argParser = require('minimist-string'),
     hi = require('./../lib/highlight'),
     Settings = require('./../lib/settings');
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance(),
+        infoLog = Logger.instance().info,
         hasArgs = argsHelper.stringSplit(messageText).length > 1,
         args = argParser(messageText),
         isAdmin = await permissionHelper.isAdmin(client, message.author);

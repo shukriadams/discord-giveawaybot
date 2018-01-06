@@ -1,6 +1,6 @@
 {
-    "name": "giveawaybot",
-    "version": "0.0.5",
+    "name": "discord-giveawaybot",
+    "version": "0.1.0",
     "description": "A Discord bot that gives games away.",
     "private": true,
     "author": "shukri.adams@gmail.com",
@@ -9,7 +9,7 @@
         "node" : ">=0.7.x"
     },
     "scripts" : {
-        "start" : "node index",
+        "start" : "node start",
         "test" : "node tests/test"
     },
     "dependencies" : {

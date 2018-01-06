@@ -5,7 +5,7 @@ let argParser = require('minimist-string'),
     codes = require('./../lib/codes'),
     hi = require('./../lib/highlight'),
     recordFetch = require('./../lib/recordFetch'),
-    infoLog = require('./../lib/logger').info,
+    Logger = require('./../lib/logger'),
     messages = require('./../lib/messages'),
     Settings = require('./../lib/settings'),
     permissionHelper = require('./../lib/permissionHelper'),
@@ -15,6 +15,7 @@ let argParser = require('minimist-string'),
 
 module.exports = async function (client, message, messageText){
     let settings = Settings.instance,
+        infoLog = Logger.instance().info,
         store = await Store.instance(),
         args = argParser(messageText);
 

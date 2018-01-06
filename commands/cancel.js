@@ -11,13 +11,14 @@ let argParser = require('minimist-string'),
     channelProvider = require('./../lib/channelProvider'),
     Settings = require('./../lib/settings'),
     messages = require('./../lib/messages'),
-    infoLog = require('./../lib/logger').info,
+    Logger = require('./../lib/logger'),
     hi = require('./../lib/highlight'),
     permissionHelper = require('./../lib/permissionHelper');
 
 module.exports = async function (client, message, messageText){
 
     let store = await Store.instance(),
+        infoLog = Logger.instance().info,
         settings = Settings.instance(),
         args = argParser(messageText);
 
