@@ -3,6 +3,8 @@
  */
 let MockClient = require('./mockClient'),
     MockSteamInfo = require('./mockSteamInfo'),
+    MockLogger = require('./mockLogger'),
+    TestTrace = require('./testTrace'),
     MockStore = require('./mockStore');
 
 module.exports = function(testName, tests){
@@ -13,10 +15,14 @@ module.exports = function(testName, tests){
         // inject test structures into singletons
         let Settings = require('./../../lib/settings'),
             Store = require('./../../lib/store'),
+            Logger = require('./../../lib/logger'),
+            Trace = require('./../../lib/trace'),
             GameInfo = require('./../../lib/gameInfo');
 
         let store = new MockStore(),
             steamInfo = new MockSteamInfo(),
+            testTrace = new TestTrace(),
+            mockLogger = new MockLogger(),
             settings = {
                 save : function(){ },
                 values : {
@@ -26,6 +32,10 @@ module.exports = function(testName, tests){
             }};
 
         // set tes shims before importing bot
+        Trace.set(function(args1, args2, args3){
+            testTrace.trace(args1, args2, args3)
+        });
+        Logger.set(mockLogger);
         GameInfo.set(steamInfo);
         Settings.set(settings);
         Store.set(store);
@@ -41,6 +51,7 @@ module.exports = function(testName, tests){
         // forces comparinator to create new data files for testing, so we don't have to trash "real" data
         tests({
             bot : bot,
+            trace : testTrace,
             client : client,
             store : store, // refactor this out, it's unreliable
             steamInfo : steamInfo,

@@ -61,20 +61,15 @@ test('invalid input', function(testBase){
     });
 
     it('should reject message if giveaway channel not set', async function() {
-
-        let message = makeMessage(testBase.client.user.id);
-
         // force blank the giveawaychannelid
         testBase.settings.values.giveawayChannelId = null;
 
-        message.content += ' help';
+        let message = makeMessage(testBase.client.user.id);
+        // message should be valid
+        message.content = 'help';
 
-        let result = await testBase.client.raiseMessageEvent(message);
-
-        assert.equal(codes.MESSAGE_REJECTED_CHANNELNOTSET, result);
+        await testBase.client.raiseMessageEvent(message);
+        assert.true(testBase.trace.has(codes.ALERT_CHANNELNOTSET));
     });
-
-
-
 
 });
