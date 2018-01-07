@@ -21,14 +21,14 @@ Gives away Steam games on Discord. Heavily inspired by https://github.com/jagros
 You can get the bot code in two ways
 
 - clone this repo.
-- get the bot as the package "discord-giveawaybot" on npmjs.com. If you do it this way, import and run your bot as
+- get the bot as the package "discord-giveawaybot" on npmjs.com. If you do it this way, import and run your bot as :
 
-    let Bot = require('discord-giveawaybot'),
-        bot = new Bot();
+        let Bot = require('discord-giveawaybot'),
+            bot = new Bot();
 
-    bot.start();
+        bot.start();
 
-In either the folder your cloned, or the folder you're using the bot npm package from ...
+In either the folder your cloned, or the folder you're using the bot npm package from 
 
 - copy *examplesSettings.json* to a new file called *settings.json*
 - add your bot token from the preceeding section to your settings.json file
