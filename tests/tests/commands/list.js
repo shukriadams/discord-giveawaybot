@@ -22,8 +22,8 @@ test('list command', function(testBase){
         let message = makeMessage(testBase.client.user.id);
         message.content = 'list';
 
-        let result = await testBase.client.raiseMessageEvent(message);
-        assert.equal(codes.MESSAGE_ACCEPTED, result);
+        await testBase.client.raiseMessageEvent(message);
+        assert.true(testBase.trace.has(codes.MESSAGE_ACCEPTED));
     });
 
     it('should accept a list all command', async function() {
@@ -37,8 +37,8 @@ test('list command', function(testBase){
         let message = makeMessage(testBase.client.user.id);
         message.content = 'list all';
 
-        let result = await testBase.client.raiseMessageEvent(message);
-        assert.equal(codes.MESSAGE_ACCEPTED, result);
+        await testBase.client.raiseMessageEvent(message);
+        assert.true(testBase.trace.has(codes.MESSAGE_ACCEPTED));
     });
 
     it('should accept a list help command', async function() {
@@ -46,7 +46,16 @@ test('list command', function(testBase){
         let message = makeMessage(testBase.client.user.id);
         message.content = 'list -h';
 
-        let result = await testBase.client.raiseMessageEvent(message);
-        assert.equal(codes.MESSAGE_ACCEPTED_HELPRETURNED, result);
+        await testBase.client.raiseMessageEvent(message);
+        assert.true(testBase.trace.has(codes.MESSAGE_ACCEPTED_HELPRETURNED));
+    });
+
+        it('should accept a list help command', async function() {
+
+        let message = makeMessage(testBase.client.user.id);
+        message.content = 'list --help';
+
+        await testBase.client.raiseMessageEvent(message);
+        assert.true(testBase.trace.has(codes.MESSAGE_ACCEPTED_HELPRETURNED));
     });
 });

@@ -60,7 +60,7 @@ test('invalid input', function(testBase){
         assert.equal(codes.MESSAGE_REJECTED_UNKNOWNCOMMAND, result);
     });
 
-    it('should reject message if giveaway channel not set', async function() {
+    it('should inform that giveaway channel not set', async function() {
         // force blank the giveawaychannelid
         testBase.settings.values.giveawayChannelId = null;
 

@@ -31,9 +31,10 @@ module.exports = function(testName, tests){
                     brackets : []
             }};
 
-        // set tes shims before importing bot
-        Trace.set(function(args1, args2, args3){
-            testTrace.trace(args1, args2, args3)
+        // set shims before importing bot
+        // trace set twice because its being overwritten somewhere ...
+        Trace.set(function(){
+            testTrace.trace.apply(testTrace, arguments);
         });
         Logger.set(mockLogger);
         GameInfo.set(steamInfo);
@@ -72,14 +73,17 @@ module.exports = function(testName, tests){
                 Settings.set(settings);
                 let store = await Store.instance();
                 store.flush();
-
+                testTrace.clear();
+                // trace set twice because its being overwritten somewhere ...
+                Trace.set(function(){
+                    testTrace.trace.apply(testTrace, arguments);
+                });
                 // setup
                 done();
             })();
         });
 
         afterEach(function(done){
-
             // teardown
             done();
         });

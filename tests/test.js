@@ -16,7 +16,7 @@ let Mocha = require('mocha'),
 process.env['isTesting'] = 1;
 
 // TIP. Want to debug just one file? Overwrite tests array variable with your one file like :
-//tests = [__dirname + '/tests/commands/status.js'];
+//tests = [__dirname + '/tests/commands/list.js'];
 
 for (let i = 0 ; i < tests.length ; i ++){
     // slice removes .js file extension, which mocha doesn't want
