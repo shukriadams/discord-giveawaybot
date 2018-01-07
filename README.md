@@ -28,7 +28,7 @@ You can get the bot code in two ways
 
         bot.start();
 
-In either the folder your cloned, or the folder you're using the bot npm package from 
+In either the folder your cloned, or the folder you're using the bot npm package from
 
 - copy *examplesSettings.json* to a new file called *settings.json*
 - add your bot token from the preceeding section to your settings.json file
