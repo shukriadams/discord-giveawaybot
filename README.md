@@ -7,34 +7,41 @@ Gives away Steam games on Discord. Heavily inspired by https://github.com/jagros
 ## Requirements
 
 - NodeJS 7 or greater.
-- Yarn (or use npm if you prefer that)
 
-## Create a bot on Discord
+## Create your bot on Discord first
 
-- clone this repo 
-- copy *examplesSettings.json* to a new file called *settings.json*
 - go to https://discordapp.com/developers/applications/me
 - click on "new app"
 - follow the instructions and create your app, normally you need to add only a name
 - after creating your app, click on "create a bot user", this converts your app to a bot (a good thing)
-- on the bot's config page, click on "click to reveal token", copy this, and paste it into the token field of your local
-settings.json file
+- on the bot's config page, click on "click to reveal token", copy this, and keep it handy for the next step
 
-## Hosting your bot
+## Host your bot
 
-You can host a bot instance on any internet-connected machine with Nodejs 7.x or higher installed.
+You can get the bot code in two ways
 
-    npm install
-    npm start
+- clone this repo.
+- get the bot as the package "discord-giveawaybot" on npmjs.com. If you do it this way, import and run your bot as
 
-is all you need to setup/start it. I recommend a Linux host with PM2 to ensure your Node process stays up. Note that a
-bot instance should never be shared by multiple Discord servers - the giveaways you create on an instance are visible to
-all Discord servers that use that instance.
+    let Bot = require('discord-giveawaybot'),
+        bot = new Bot();
+
+    bot.start();
+
+In either the folder your cloned, or the folder you're using the bot npm package from ...
+
+- copy *examplesSettings.json* to a new file called *settings.json*
+- add your bot token from the preceeding section to your settings.json file
+- run "npm install"
+- run "npm start". Your should see a console message that your bot is ready.
 
 ## Add your bot to your Discord server
 
-- back on your app's Discord config page, copy your bot's client id and paste it into this url, replacing YOURCLIENTID
-  https://discordapp.com/oauth2/authorize?&client_id=YOURCLIENTID&scope=bot&permissions=0
+- back on your app's Discord config page (from the first section above), copy your bot's client id and paste it into
+  this url, replacing YOURCLIENTID :
+
+      https://discordapp.com/oauth2/authorize?&client_id=YOURCLIENTID&scope=bot&permissions=0
+
 - then navigate to that url in a browser. You'll get the option to add it to your Discord server. After doing this you
 should see your bot as a user on your server.
 - Your bot needs to know which channel you'll be broadcasting giveaways in. Go to the channel you want to use and write
@@ -144,11 +151,14 @@ Get participate emoji characters at http://emojipedia.org
 
 The bot is basically two processes
 
-- 1) a message handler that receives message instructions from Discord users and responds to them immediately.
-- 2) a daemon which ticks at an interval, and which carries out instructions that cannot be handled immediately upon
-     receipt.
+- a message handler that receives message instructions from Discord users and responds to them immediately.
+- a daemon which ticks at an interval, and which carries out instructions that cannot be handled immediately upon
+  receipt.
 
 All other files are helpers for the above.
+
+- Giveaway data is persisted with a local Loki.js store.
+- The daemon uses node-cron for its timer.
 
 If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
 
