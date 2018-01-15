@@ -24,15 +24,15 @@ There are three ways to host your bot. In all cases, first create a sub folder c
 
 - Create a docker-compose.yml file 
 
-    version: "2"
-    services:
-      node:
-        container_name: testContainer
-        image: shukriadams/discord-giveawaybot:latest
-        restart: unless-stopped
-        command: npm start
-        volumes:
-        - ./discord-giveawaybot/:/usr/giveawaybot/discord-giveawaybot/:rw
+        version: "2"
+        services:
+          node:
+            container_name: testContainer
+            image: shukriadams/discord-giveawaybot:latest
+            restart: unless-stopped
+            command: npm start
+            volumes:
+            - ./discord-giveawaybot/:/usr/giveawaybot/discord-giveawaybot/:rw
 
 - Run 
 
