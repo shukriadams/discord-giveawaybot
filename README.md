@@ -20,7 +20,7 @@ Gives away Steam games on Discord. Heavily inspired by https://github.com/jagros
 
 There are three ways to host your bot. In all cases, first create a sub folder called "discord-giveawaybot" in the root folder you're working from, to this sub folder copy exampleSettings.json, rename to settings.json, and add your bot token from Discord.
 
-### Docker
+### From Docker image
 
 - Create a docker-compose.yml file 
 
@@ -36,7 +36,7 @@ There are three ways to host your bot. In all cases, first create a sub folder c
 
 - Run 
 
-    docker-compose up -d
+        docker-compose up -d
 
 These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required.
 
@@ -44,7 +44,7 @@ These settings can of course be tweaked to suite your host setup, only npm start
 
 - Install
 
-    npm install discord-giveawaybot --save
+        npm install discord-giveawaybot --save
     
 - Run  
 
@@ -53,13 +53,13 @@ These settings can of course be tweaked to suite your host setup, only npm start
 
         bot.start();
 
-### From soure
+### From source
 
 - Clone this repo.
 - Run
     
-    npm install
-    npm start
+        npm install
+        npm start
 
 
 ## Add your bot to your Discord server
