@@ -27,7 +27,7 @@ There are three ways to host your bot. In all cases, first create a sub folder c
         version: "2"
         services:
           node:
-            container_name: testContainer
+            container_name: discordgiveawaybot
             image: shukriadams/discord-giveawaybot:latest
             restart: unless-stopped
             command: npm start
@@ -37,6 +37,8 @@ There are three ways to host your bot. In all cases, first create a sub folder c
 - Run 
 
     docker-compose up -d
+
+These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required.
 
 ### From NPM
 
