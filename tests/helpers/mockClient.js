@@ -75,6 +75,9 @@ class Client{
         return await this.bot._onMessage(message);
     }
 
+    on(){
+
+    }
 
     login(appkey){
 

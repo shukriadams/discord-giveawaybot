@@ -28,6 +28,9 @@ class MockStore {
         return { id : 'whatever'}
     }
 
+    clean(){
+    }
+
     delete(){ }
 
     update(){ }

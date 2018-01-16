@@ -43,7 +43,7 @@ module.exports = function(testName, tests){
 
         let Bot = require('../../lib/bot'),
             Client = require('./../../lib/clientProvider'),
-            bot = new Bot(),
+            bot = new Bot({nocron : true}),
             client = new MockClient(bot);
 
         Client.set(client);
@@ -75,6 +75,7 @@ module.exports = function(testName, tests){
                 store.flush();
                 testTrace.clear();
                 // trace set twice because its being overwritten somewhere ...
+                Client.set(client);
                 Trace.set(function(){
                     testTrace.trace.apply(testTrace, arguments);
                 });
@@ -86,6 +87,7 @@ module.exports = function(testName, tests){
         afterEach(function(done){
             // teardown
             done();
+            bot.stop();
         });
     });
 };

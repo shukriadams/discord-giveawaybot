@@ -131,7 +131,7 @@ test('reroll command', function(testBase){
         let member = new GuildMember();
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
-
+        testBase.client.setNextUser({});
         // add dummy message giveaway message
         testBase.client.channels.array()[0].setNextMessage(new MockMessage());
 
