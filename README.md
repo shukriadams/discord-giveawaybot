@@ -22,6 +22,8 @@ There are three ways to host your bot. In all cases, first create a sub folder c
 
 ### From Docker image
 
+Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
+
 - Create a docker-compose.yml file 
 
         version: "2"
