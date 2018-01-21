@@ -13,6 +13,5 @@ Vagrant.configure("2") do |config|
      v.customize ["modifyvm", :id, "--memory", 1048]
   end
 
-  config.vm.provision "file", source: "~/.ssh/id_rsa", destination: "~/.ssh/id_rsa"
   config.vm.provision :shell, path: "provision.sh"
 end

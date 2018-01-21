@@ -1,10 +1,10 @@
 # discord-giveawaybot
 
-A demo version of the bot lives on Discord: https://discord.gg/gMEGQBj
-
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
 Gives away Steam games on Discord. Heavily inspired by https://github.com/jagrosh/GiveawayBot
+
+A demo version can be seen on Discord: https://discord.gg/gMEGQBj
 
 ## Requirements
 
@@ -20,9 +20,11 @@ Gives away Steam games on Discord. Heavily inspired by https://github.com/jagros
 
 ## Host your bot
 
-There are three ways to host your bot. In all cases, first create a sub folder called "discord-giveawaybot" in the root folder you're working from, to this sub folder copy exampleSettings.json, rename to settings.json, and add your bot token from Discord.
+There are three ways to host your bot. In all cases, your should create a folder (this will be your bot's root folder).
+In this create a sub folder called "discord-giveawaybot", in this sub folder copy exampleSettings.json, rename it
+settings.json, open it with your favorite text editor, and add your Discord bot token (see above) to the "token" field.
 
-### From Docker image
+### 1) From Docker image
 
 Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
 
@@ -44,27 +46,26 @@ Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
 
 These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required.
 
-### From NPM
+### 2) From NPM
 
 - Install
 
         npm install discord-giveawaybot --save
     
-- Run  
+- Run
 
         let Bot = require('discord-giveawaybot'),
             bot = new Bot();
 
         bot.start();
 
-### From source
+### 3) From source
 
 - Clone this repo.
 - Run
     
         npm install
         npm start
-
 
 ## Add your bot to your Discord server
 
@@ -78,6 +79,16 @@ should see your bot as a user on your server.
 - Your bot needs to know which channel you'll be broadcasting giveaways in. Go to the channel you want to use and write
 "@BOTNAME channel" where BOTNAME is whatever name you gave your bot.
 - That's it, you're set to go.
+
+## Known issues
+
+The bot has a memory leak, and will hang periodically. I don't have a fix for this, a workaround is to enable self-timeout
+in settings.json
+
+    "processLifetime" : 480
+
+This value is in minutes, and after it has elapsed, the bot will cleanly exit and flush used memory. If you're hosting
+with docker or pm2, they should automatically bring the bot back up, and you're good to run again.
 
 ## Additional config
 
@@ -206,7 +217,6 @@ If you want to run it directly on your machine, install Node 7 or higher. Then r
 
     npm install
     node index
-
 
 ## Tests
 
