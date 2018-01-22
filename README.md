@@ -4,7 +4,7 @@
 
 Gives away Steam games on Discord. Heavily inspired by https://github.com/jagrosh/GiveawayBot
 
-A demo version can be seen on Discord: https://discord.gg/gMEGQBj
+A demo version can be seen on Discord: https://discord.gg/gMEGQBj (limited to non-admin functions, can't auto-assign admin rights, yet)
 
 ## Requirements
 
