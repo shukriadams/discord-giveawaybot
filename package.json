@@ -1,6 +1,6 @@
 {
     "name": "discord-giveawaybot",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "A Discord bot that gives games away.",
     "private": false,
     "author": "shukri.adams@gmail.com",
@@ -24,7 +24,7 @@
         "winston-daily-rotate-file" : "1.7.2",
         "jsonfile": "2.0.0",
         "cheerio" : "1.0.0-rc.2",
-        "discord.js" : "11.2.1"
+        "discord.js" : "11.3.0"
     },
     "devDependencies": {
         "mocha": "3.2.0",

@@ -11,5 +11,5 @@ sudo apt-get install nodejs  -y
 sudo npm install -g yarn
 
 # force startup folder to vagrant project
-echo "cd /vagrant" >> /home/ubuntu/.bashrc
+echo "cd /vagrant" >> /home/vagrant/.bashrc
 
