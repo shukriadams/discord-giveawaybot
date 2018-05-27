@@ -149,7 +149,7 @@ test('reroll command', function(testBase){
         };
         store.setRecords([giveaway]);
 
-        testBase.client.setNextUser({ username : 'name'});
+        testBase.client.setNextUser({ username : 'name', send : function(){} }); // todo : user a proper user object instead of tacking functions on anon objs
 
         let result = await testBase.client.raiseMessageEvent(message);
         assert.equal(codes.MESSAGE_ACCEPTED, result);
