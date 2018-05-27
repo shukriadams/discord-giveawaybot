@@ -2,9 +2,12 @@
 
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
-Gives away Steam games on Discord. Heavily inspired by https://github.com/jagrosh/GiveawayBot
+A Discord bot that manages automated game giveaways on Discord channels. Built-in integration for Steam titles, but can
+give anything connected to a URL away. Heavily inspired by https://github.com/jagrosh/GiveawayBot
 
-A demo version can be seen on Discord: https://discord.gg/gMEGQBj (limited to non-admin functions, can't auto-assign admin rights, yet)
+A demo version can be seen on Discord: https://discord.gg/gMEGQBj (Bot is limited to non-admin functions, I can't
+auto-assign admin rights to users. I'm not active on this Discord channel, its for demo purposes, if you need help or
+found a bug use Github.
 
 ## Requirements
 
@@ -20,15 +23,26 @@ A demo version can be seen on Discord: https://discord.gg/gMEGQBj (limited to no
 
 ## Host your bot
 
-There are three ways to host your bot. In all cases, your should create a folder (this will be your bot's root folder).
-In this create a sub folder called "discord-giveawaybot", in this sub folder copy exampleSettings.json, rename it
-settings.json, open it with your favorite text editor, and add your Discord bot token (see above) to the "token" field.
+There are three ways to host your bot. Regardless of which you use, you need to create a work folder where all volatile
+files are kept, and a settings file inside that folder.
+
+    # bot root folder. package.json etc lives here if you're not using the Docker solution
+    mkdir myBot
+
+    # bot work folder
+    mkdir myBot/discord-giveawaybot
+
+    # bot settings file
+    touch myBot/discord-giveawaybot/settings.json
+
+In the root of this Github project you'll find exampleSettings.json, copy its contents to your settings file, and
+replace "ADD YOUR BOT TOKEN HERE" with your own Discord bot token (see "Create your bot on Discord first" step above).
 
 ### 1) From Docker image
 
 Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
 
-- Create a docker-compose.yml file 
+- Create a docker-compose.yml file in your bot root folder
 
         version: "2"
         services:
@@ -44,7 +58,8 @@ Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
 
         docker-compose up -d
 
-These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required.
+These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required. All
+volatile content is in the discord-giveawaybot folder, back this up if desired, your containers are disposable.
 
 ### 2) From NPM
 
@@ -88,7 +103,8 @@ in settings.json
     "processLifetime" : 480
 
 This value is in minutes, and after it has elapsed, the bot will cleanly exit and flush used memory. If you're hosting
-with docker or pm2, they should automatically bring the bot back up, and you're good to run again.
+with docker or pm2, they should automatically bring the bot back up, and you're good to run again. If you find your bot
+hangs or is unresponsive, shorten the time. This is not an ideal solution, but it works well enough for now.
 
 ## Additional config
 
@@ -194,15 +210,17 @@ Get participate emoji characters at http://emojipedia.org
 The bot is basically two processes
 
 - a message handler that receives message instructions from Discord users and responds to them immediately.
-- a daemon which ticks at an interval, and which carries out instructions that cannot be handled immediately upon
-  receipt.
+- a daemon which ticks at an interval, and which carries out instructions that are not directly driven by incoming user
+  messages
 
-All other files are helpers for the above.
+All other files are helpers for the above. Other stuff :
 
-- Giveaway data is persisted with a local Loki.js store.
+- Giveaway data is persisted with a local Loki.js store, in /discord-giveawaybot/__store
+- Errors are logged out with Winston in /discord-giveawaybot/__logs
 - The daemon uses node-cron for its timer.
 
-If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or testing).
+If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to run the bot (for development or
+testing).
 
     cd /vagrant
     vagrant up
@@ -210,21 +228,19 @@ If you use Vagrant, the included vagrant script will start an Ubuntu VM ready to
 
 Then in the VM run
 
-    yarn --no-bin-links
-    node index
+    yarn --no-bin-links (flag needed only if your host machine is Windows)
+    node start (or npm start)
 
-If you want to run it directly on your machine, install Node 7 or higher. Then run
+If you want to run the bot directly on your host system without yarn
 
     npm install
-    node index
+    node start (or npm start)
 
 ## Tests
 
     npm test
 
-or
+or if you want to test with a debugger (Webstorm, VSCode etc), point your debugger to /tests/test.js and
 
     cd /tests
     node test
-
-If you want to test with a debugger (Webstorm, VSCode etc), point it to /tests/test.js
