@@ -3,7 +3,14 @@
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
 A Discord bot that manages automated game giveaways on Discord channels. Built-in integration for Steam titles, but can
-give anything connected to a URL away. Heavily inspired by https://github.com/jagrosh/GiveawayBot
+give anything connected to a URL away. Heavily inspired by https://github.com/jagrosh/GiveawayBot, differs from the
+original with :
+
+- bot commands are in private message, allowing for surprise giveaways, direct messaging of game keys to winners,
+  detailed data queries and other quiet admin functions
+- queuing of future giveaways
+- anti-greed features automatically prevents a winner from entering another giveaway for a while
+- better Steam integration
 
 A demo version can be seen on Discord: https://discord.gg/gMEGQBj (Bot is limited to non-admin functions, I can't
 auto-assign admin rights to users. I'm not active on this Discord channel, its for demo purposes, if you need help or
@@ -179,7 +186,7 @@ can optionally be added to this command - the winner will receive this code in a
 
 An admin or user with giveaway role can reroll a winner on a finished giveaway if they so wish. Note this obviously
 doesn't have much meaning if the activation code is attached to the giveaway, as the previous winner will already have
-it.
+received the code, so use common sense.
 
 ### rules
 
