@@ -8,8 +8,7 @@ test('invalid input', function(testBase){
 
     it('should reject a message from another bot', async function() {
 
-
-        let message = makeMessage('emptyid');
+        let message = await makeMessage('emptyid');
         // set message to appear like it's from another bot
         message.author.bot = true;
 
@@ -20,7 +19,7 @@ test('invalid input', function(testBase){
 
     it('should reject global messages', async function() {
 
-        let message = makeMessage('emptyId');
+        let message = await makeMessage('emptyId');
         // mimic structure of a discord group message
         message.mentions.everyone = {};
 
@@ -31,7 +30,7 @@ test('invalid input', function(testBase){
 
     it('should reject group messages that the bot is included in', async function() {
 
-        let message = makeMessage('emptyId');
+        let message = await makeMessage('emptyId');
         // mimic structure of a discord group message with more than person in it
         message.mentions.users = new Collection([ {}, {} ]);
 
@@ -42,7 +41,7 @@ test('invalid input', function(testBase){
 
     it('should reject message not aimed at the bot user', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         // mnimic structure of a discord message aimed at user other than bot
         message.mentions.users = new Collection([ { id : 4321} ]);
 
@@ -54,7 +53,7 @@ test('invalid input', function(testBase){
     it('should reject message with an unknown command', async function() {
 
         // mnimic structure of a valid discord, with invalid command
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         let result = await testBase.client.raiseMessageEvent(message);
 
         assert.equal(codes.MESSAGE_REJECTED_UNKNOWNCOMMAND, result);
@@ -64,7 +63,7 @@ test('invalid input', function(testBase){
         // force blank the giveawaychannelid
         testBase.settings.values.giveawayChannelId = null;
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         // message should be valid
         message.content = 'help';
 

@@ -9,7 +9,7 @@ test('cancel command', async function(testBase){
 
     it('should reject a cancel command with no arg', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'cancel';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -18,7 +18,7 @@ test('cancel command', async function(testBase){
 
     it('should reject a cancel command with two args', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'cancel abc 123';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -27,7 +27,7 @@ test('cancel command', async function(testBase){
 
     it('should reject a cancel command if id not a number', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'cancel -i abc';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -36,7 +36,7 @@ test('cancel command', async function(testBase){
 
     it('should reject a cancel command if giveaway does not exist', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'cancel -i 123';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -56,7 +56,7 @@ test('cancel command', async function(testBase){
             ownerId : 'zxy'
         }]);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.author.id = 'abc';
         message.content = 'cancel -i 123';
 
@@ -74,7 +74,7 @@ test('cancel command', async function(testBase){
         }]);
 
         //
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.author.id = 'abc';
         message.content = ' cancel -i 123';
 
@@ -93,7 +93,7 @@ test('cancel command', async function(testBase){
         }]);
 
         //
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.author.id = 'abc';
         message.content = 'cancel -i 123';
 
@@ -115,7 +115,7 @@ test('cancel command', async function(testBase){
             ownerId : 'abc',
         }]);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'cancel -i 123';
 
         let result = await testBase.client.raiseMessageEvent(message);

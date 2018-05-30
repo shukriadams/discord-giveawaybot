@@ -14,7 +14,7 @@ test('me command', function(testBase){
             ended : new Date().getTime()
         }]);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'me';
 
         let result = await testBase.client.raiseMessageEvent(message);

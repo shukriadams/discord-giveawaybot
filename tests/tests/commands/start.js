@@ -9,7 +9,7 @@ let assert = require('./../../helpers/assert'),
 test('start command', function(testBase){
 
     it('should reject a start command with too few args', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'start ab';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -18,7 +18,7 @@ test('start command', function(testBase){
 
 
     it('should reject a start command with too many args', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'start ab cd ef';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -26,7 +26,7 @@ test('start command', function(testBase){
     });
 
     it('should reject a start command with invalid duration time format', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'start ab steamlink ';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -34,7 +34,7 @@ test('start command', function(testBase){
     });
 
     it('should reject a start command without a price', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'start 1m steamid';
 
         // make caller an admin
@@ -53,7 +53,7 @@ test('start command', function(testBase){
     });
 
     it('should accept a start command with a valid steamID', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'start 1m steamid';
 
         // make caller an admin

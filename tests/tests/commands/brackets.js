@@ -14,7 +14,7 @@ test('bracket command', function(testBase){
         member.permission = false;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -28,7 +28,7 @@ test('bracket command', function(testBase){
         member.permission = false;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets -b 0-100-200';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -42,7 +42,7 @@ test('bracket command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets abcd xwy';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -56,7 +56,7 @@ test('bracket command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets -b 0-';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -70,7 +70,7 @@ test('bracket command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets -b 0-a';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -84,7 +84,7 @@ test('bracket command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'brackets -b 0-100-200';
 
         let result = await testBase.client.raiseMessageEvent(message);

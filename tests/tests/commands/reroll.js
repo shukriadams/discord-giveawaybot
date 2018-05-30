@@ -9,7 +9,7 @@ let assert = require('./../../helpers/assert'),
 test('reroll command', function(testBase){
 
     it('should reject a reroll command if too few args', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -17,7 +17,7 @@ test('reroll command', function(testBase){
     });
 
     it('should reject a reroll command if too many args', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll thing stuff';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -25,7 +25,7 @@ test('reroll command', function(testBase){
     });
 
     it('should reject a reroll command if id is not an int', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i thing';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -33,7 +33,7 @@ test('reroll command', function(testBase){
     });
 
     it('should reject a reroll command if giveaway does not exist', async function() {
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -46,7 +46,7 @@ test('reroll command', function(testBase){
         member.permission = false;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
         message.author.id = 'abc';
 
@@ -68,7 +68,7 @@ test('reroll command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
 
         let store = await Store.instance();
@@ -89,7 +89,7 @@ test('reroll command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
 
         let store = await Store.instance();
@@ -111,7 +111,7 @@ test('reroll command', function(testBase){
         member.permission = true;
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
 
         let store = await Store.instance();
@@ -135,7 +135,7 @@ test('reroll command', function(testBase){
         // add dummy message giveaway message
         testBase.client.channels.array()[0].setNextMessage(new MockMessage());
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'reroll -i 1';
 
         let store = await Store.instance();
