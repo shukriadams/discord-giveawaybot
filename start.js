@@ -3,7 +3,11 @@
  * the file you want to start your debugger on.
  */
 
-let Bot = require('./lib/bot'),
-    bot = new Bot();
+(async function(){
+    let Bot = require('./lib/bot'),
+        bot = new Bot();
 
-bot.start();
+    await bot.start();
+})();
+
+
