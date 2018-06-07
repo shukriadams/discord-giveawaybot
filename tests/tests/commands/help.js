@@ -8,7 +8,7 @@ test('help command', function(testBase){
     it('should accept a help command', async function() {
 
         // mimic structure of a valid discord, with invalid command
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'help';
 
         let result = await testBase.client.raiseMessageEvent(message);

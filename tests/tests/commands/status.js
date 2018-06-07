@@ -9,7 +9,7 @@ test('status command', function(testBase){
     it('should reject a status command from non admin', async function() {
 
         // mnimic structure of a valid discord, with invalid command
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content += 'status';
 
         let result = await testBase.client.raiseMessageEvent(message);
@@ -24,7 +24,7 @@ test('status command', function(testBase){
         testBase.client.channels.array()[0].guild.setNextMember(member);
 
         // mnimic structure of a valid discord, with invalid command
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content += 'status';
 
         let result = await testBase.client.raiseMessageEvent(message);

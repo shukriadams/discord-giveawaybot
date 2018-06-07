@@ -19,7 +19,7 @@ test('list command', function(testBase){
             participants : []
         }]);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'list';
 
         await testBase.client.raiseMessageEvent(message);
@@ -34,7 +34,7 @@ test('list command', function(testBase){
             participants : []
         }]);
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'list all';
 
         await testBase.client.raiseMessageEvent(message);
@@ -43,16 +43,16 @@ test('list command', function(testBase){
 
     it('should accept a list help command', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'list -h';
 
         await testBase.client.raiseMessageEvent(message);
         assert.true(testBase.trace.has(codes.MESSAGE_ACCEPTED_HELPRETURNED));
     });
 
-        it('should accept a list help command', async function() {
+    it('should accept a list help command', async function() {
 
-        let message = makeMessage(testBase.client.user.id);
+        let message = await makeMessage(testBase.client.user.id);
         message.content = 'list --help';
 
         await testBase.client.raiseMessageEvent(message);

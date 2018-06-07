@@ -104,14 +104,9 @@ should see your bot as a user on your server.
 
 ## Known issues
 
-The bot has a memory leak, and will hang periodically. I don't have a fix for this, a workaround is to enable self-timeout
-in settings.json
-
-    "processLifetime" : 480
-
-This value is in minutes, and after it has elapsed, the bot will cleanly exit and flush used memory. If you're hosting
-with docker or pm2, they should automatically bring the bot back up, and you're good to run again. If you find your bot
-hangs or is unresponsive, shorten the time. This is not an ideal solution, but it works well enough for now.
+The bot can handle a maximum of 100 participants per giveaway. Anyone above that 100 will be ignored - this is a
+limitation in Discord's API, and will be fixed when Discord fixes their API. As a workaround, a giveaway will
+automatically end when it has reached 100 participants. 
 
 ## Additional config
 

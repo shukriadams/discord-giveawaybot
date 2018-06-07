@@ -4,7 +4,9 @@
 let Collection = require('./../helpers/collection'),
     ClientProvider = require('./../../lib/clientProvider');
 
-module.exports = function(botId){
+module.exports = async function(botId){
+    let client = await ClientProvider.instance();
+
     return {
         author : {
             bot : false,
@@ -12,7 +14,7 @@ module.exports = function(botId){
             // another shim function
             send : function(){}
         },
-        client: ClientProvider.instance(),
+        client: client,
         content : '',
         channel : {
             type : 'dm'
