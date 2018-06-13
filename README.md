@@ -129,7 +129,7 @@ and a user wins a game that costs $50, that user will automatically be prevented
 giveaway for any game costing between 0 and 100 USD. Brackets are optional - you can register none, one, or as many as
 you like.
 
-    brackets 0-20-50-100
+    brackets -b 0-20-50-100
 
 sets 3 brackets, 1-20, 20-50 and 50-100. If a game costs 20 USD, it falls in the first bracket that it fits in, 0-20 in
 this case. You can start and brackets at any price range. For example
