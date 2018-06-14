@@ -3,53 +3,64 @@
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
 A Discord bot that manages automated game giveaways on Discord channels. Built-in integration for Steam titles, but can
-give anything connected to a URL away. Heavily inspired by https://github.com/jagrosh/GiveawayBot, differs from the
+handle anything connected to a URL. Heavily inspired by https://github.com/jagrosh/GiveawayBot, differs from the
 original with :
 
 - bot commands are in private message, allowing for surprise giveaways, direct messaging of game keys to winners,
   detailed data queries and other quiet admin functions
 - queuing of future giveaways
-- anti-greed features automatically prevents a winner from entering another giveaway for a while
+- anti-greed features automatically preventing a winner from entering another giveaway for a while
 - better Steam integration
 
 A demo version can be seen on Discord: https://discord.gg/gMEGQBj (Bot is limited to non-admin functions, I can't
-auto-assign admin rights to users. I'm not active on this Discord channel, its for demo purposes, if you need help or
-found a bug use Github.
+auto-assign admin rights to users. I'm not active on this Discord channel, it's for demo purposes, if you need help or
+found a bug use Github).
 
 ## Requirements
 
-- NodeJS 7 or greater.
+- Docker (recommended host)
+
+or
+
+- NodeJS 7 or greater if you plan on mounting the bot directly
 
 ## Create your bot on Discord first
 
 - go to https://discordapp.com/developers/applications/me
 - click on "new app"
-- follow the instructions and create your app, normally you need to add only a name
-- after creating your app, click on "create a bot user", this converts your app to a bot (a good thing)
-- on the bot's config page, click on "click to reveal token", copy this, and keep it handy for the next step
+- follow the instructions and create your app - you need to add only a name
+- after creating your app scroll down the app page and click on "create a bot user", this converts your app to a bot
+  (a good thing)
+- on the bot's config page, copy the bot's client id, you'll need this later. Also click on "click to reveal token",
+  copy this too for the next step.
 
 ## Host your bot
 
-There are three ways to host your bot. Regardless of which you use, you need to create a work folder where all volatile
-files are kept, and a settings file inside that folder.
+There are several ways to fetch the bot's code. Regardless of which you use, you need to
 
-    # bot root folder. package.json etc lives here if you're not using the Docker solution
-    mkdir myBot
+1. Create a root folder for your bot, this will contain static config and/or files. This is where you'll put docker-compose.yml, or package.json
+   etc from the root of this project.
 
-    # bot work folder
+   mkdir myBot
+
+2. In the root folder create a work folder where the bot writes its own volatile files.
+
     mkdir myBot/discord-giveawaybot
 
-    # bot settings file
+3. In the work folder, create a settings file. The bot will write to this file too.
+
     touch myBot/discord-giveawaybot/settings.json
 
-In the root of this Github project you'll find exampleSettings.json, copy its contents to your settings file, and
-replace "ADD YOUR BOT TOKEN HERE" with your own Discord bot token (see "Create your bot on Discord first" step above).
+4. In the root of this Github project you'll find exampleSettings.json, copy its contents to your settings file, and
+replace "ADD YOUR BOT TOKEN HERE" with the Discord bot token you copied in "Create your bot on Discord first" above. Remember to use the token,
+not the client id.
+
+Getting the bot code ...
 
 ### 1) From Docker image
 
-Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
-
-- Create a docker-compose.yml file in your bot root folder
+This is the recommended method because it's easiest to set up and keep up after that. Create a docker-compose.yml file in
+your bot root folder and add the following to it
 
         version: "2"
         services:
@@ -61,43 +72,45 @@ Image on Docker hub : https://hub.docker.com/r/shukriadams/discord-giveawaybot/
             volumes:
             - ./discord-giveawaybot/:/usr/giveawaybot/discord-giveawaybot/:rw
 
-- Run 
+In the root folder run
 
         docker-compose up -d
 
 These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required. All
-volatile content is in the discord-giveawaybot folder, back this up if desired, your containers are disposable.
+volatile content is in ./discord-giveawaybot, back this up if desired, your container is disposable. For reference, the
+container image is at https://hub.docker.com/r/shukriadams/discord-giveawaybot.
 
 ### 2) From NPM
 
-- Install
+Install
 
         npm install discord-giveawaybot --save
     
-- Run
-
-        let Bot = require('discord-giveawaybot'),
-            bot = new Bot();
-
-        bot.start();
+Run
+        npm start
 
 ### 3) From source
 
-- Clone this repo.
-- Run
+Clone this repo, then run
     
         npm install
         npm start
 
+**Keep-alive**
+
+If you're not hosting with Docker, you need to restart the bot process when it unexpectedly exits. [pm2]
+(http://pm2.keymetrics.io/) is an excellent option, but you can use whatever you're most comfortable with, just as long
+as you handle exits, because the bot _will_ exit periodically.
+
 ## Add your bot to your Discord server
 
-- back on your app's Discord config page (from the first section above), copy your bot's client id and paste it into
-  this url, replacing YOURCLIENTID :
+- back on your app's Discord config page (from the first section above), use the bot client id you copied and paste it
+into this url, replacing YOURCLIENTID
 
       https://discordapp.com/oauth2/authorize?&client_id=YOURCLIENTID&scope=bot&permissions=0
 
-- then navigate to that url in a browser. You'll get the option to add it to your Discord server. After doing this you
-should see your bot as a user on your server.
+- then navigate to that url in a browser. You'll be able to select which of your Discord servers you want to add it to.
+After doing this you should see your bot as a user on your server.
 - Your bot needs to know which channel you'll be broadcasting giveaways in. Go to the channel you want to use and write
 "@BOTNAME channel" where BOTNAME is whatever name you gave your bot.
 - That's it, you're set to go.
@@ -106,7 +119,7 @@ should see your bot as a user on your server.
 
 The bot can handle a maximum of 100 participants per giveaway. Anyone above that 100 will be ignored - this is a
 limitation in Discord's API, and will be fixed when Discord fixes their API. As a workaround, a giveaway will
-automatically end when it has reached 100 participants. 
+automatically end when it reaches 100 participants.
 
 ## Additional config
 
