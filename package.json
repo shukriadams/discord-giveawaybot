@@ -1,6 +1,6 @@
 {
     "name": "discord-giveawaybot",
-    "version": "0.1.7-rc",
+    "version": "0.1.7-rc2",
     "description": "A Discord bot that gives games away.",
     "private": false,
     "author": "shukri.adams@gmail.com",
