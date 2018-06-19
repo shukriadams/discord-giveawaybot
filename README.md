@@ -99,8 +99,23 @@ Clone this repo, then run
 **Keep-alive**
 
 If you're not hosting with Docker, you need to restart the bot process when it unexpectedly exits. [pm2]
-(http://pm2.keymetrics.io/) is an excellent option, but you can use whatever you're most comfortable with, just as long
-as you handle exits, because the bot _will_ exit periodically.
+(http://pm2.keymetrics.io/) is an excellent option. 
+
+You can also set the bot up as a service
+
+    [Service]
+    WorkingDirectory=/path/to/bot/package.json
+    ExecStart=/usr/bin/npm start
+    Restart=always
+    StandardOutput=syslog
+    StandardError=syslog
+    SyslogIdentifier=giveaway
+    User=YOURUSER
+    Group=YOURGROUP
+    Environment=NODE_ENV=production
+
+You can use whatever you're most comfortable with, just as long as you handle exits, as the bot _will_ exit 
+periodically.
 
 ## Add your bot to your Discord server
 
