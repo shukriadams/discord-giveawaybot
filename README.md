@@ -145,6 +145,9 @@ By default, only admins can create and manage giveaways. If you want to delegate
 add that name to settings.json (requires bot restart)
 - Assign the role "Giveaways" (or whatever you called it) to users who'll run giveaways.
 
+Your bot should always have the permission _Manage Messages_. It gets assigned this by default, so you don't have to 
+set it, but do not disable it.  
+
 ## Commands
 
 One of the major differences between this bot and jagrosh's giveawaybot is that this bot uses direct communication -
