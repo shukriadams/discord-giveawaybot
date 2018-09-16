@@ -148,6 +148,14 @@ add that name to settings.json (requires bot restart)
 Your bot should always have the permission _Manage Messages_. It gets assigned this by default, so you don't have to 
 set it, but do not disable it.  
 
+## Response Emoji
+
+When a giveaway starts, the bot will publish a message in the giveaway channel, along with an emote. Users should click the emote to join the giveaway. The emote is set in settings.json as the "joinGiveawayResponseCharacter" property. This value _must_ be a valid emote that Discord supports. You can get a list of emotes at any site that lists them, one example is
+
+https://getemoji.com
+
+Note that emotes are single ASCII emoji characters, so the emoji for smile must be "😄", and not ":smile:"
+
 ## Commands
 
 One of the major differences between this bot and jagrosh's giveawaybot is that this bot uses direct communication -
