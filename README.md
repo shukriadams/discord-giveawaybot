@@ -154,7 +154,7 @@ When a giveaway starts, the bot will publish a message in the giveaway channel, 
 
 https://getemoji.com
 
-Note that emotes are single ASCII emoji characters, so the emoji for smile must be "😄", and not ":smile:"
+Note that emotes are single ASCII emoji characters, so the emoji for smile must be "🎉", and not ":fanfare:" (or whatever that emoji is called)
 
 ## Commands
 
