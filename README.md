@@ -2,83 +2,96 @@
 
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
-A Discord bot that manages automated game giveaways on Discord channels. Built-in integration for Steam titles, but can
+A Discord bot that does automated game giveaways. Built-in integration for Steam titles, but can
 handle anything connected to a URL. Heavily inspired by https://github.com/jagrosh/GiveawayBot, differs from the
 original with :
 
 - bot commands are in private message, allowing for surprise giveaways, direct messaging of game keys to winners,
   detailed data queries and other quiet admin functions
 - queuing of future giveaways
-- anti-greed features automatically preventing a winner from entering another giveaway for a while
+- anti-greed features automatically prevents a winner from entering another giveaway for a while
 - better Steam integration
 
 A demo version can be seen on Discord: https://discord.gg/gMEGQBj (Bot is limited to non-admin functions, I can't
 auto-assign admin rights to users. I'm not active on this Discord channel, it's for demo purposes, if you need help or
-found a bug use Github).
+found a bug, please use Github).
 
 ## Requirements
 
-- Docker (recommended host)
+- An online machine to host your bot on. Your machine doesn't need to be publicly visible to the internet.  
+- Either Docker in a Linux environment, or NodeJS 7 or higher.
 
-or
+If you're hosting on Windows : 
 
-- NodeJS 7 or greater if you plan on mounting the bot directly
+- first familiarize yourself with best practices for running NodeJS apps as stable and persistent services on Windows.
+- Windows is known to wipe and reset bot state after system crashes or restarts. This is a Windows issue, and will not 
+be addressed.
+      
 
 ## Create your bot on Discord first
 
 - go to https://discordapp.com/developers/applications/me
 - click on "new app"
 - follow the instructions and create your app - you need to add only a name
-- after creating your app scroll down the app page and click on "create a bot user", this converts your app to a bot
-  (a good thing)
+- after creating your app scroll down the app page and click on "create a bot user" to convert your app to a bot
 - on the bot's config page, copy the bot's client id, you'll need this later. Also click on "click to reveal token",
   copy this too for the next step.
 
 ## Host your bot
 
-There are several ways to fetch the bot's code. Regardless of which you use, you need to
+PLEASE READ THIS CAREFULLY - most setup issues are caused by incorrect folder structure. 
 
-1. Create a root folder for your bot, this will contain static config and/or files. This is where you'll put docker-compose.yml, or package.json
-   etc from the root of this project.
+There are several ways to fetch the bot's code. Regardless of which you use, you need to :
 
-   mkdir myBot
+1. Create a root folder for your bot. 
 
-2. In the root folder create a work folder where the bot writes its own volatile files.
+        mkdir myBot
 
-    mkdir myBot/discord-giveawaybot
+   This is where you'll put either docker-compose.yml, or the code from this project if you downloaded the bot code 
+   from github directly. If the latter, *you should see package.json in this folder*.
 
-3. In the work folder, create a settings file. The bot will write to this file too.
+2. In the root folder create a *work folder* called "discord-giveawaybot"
 
-    touch myBot/discord-giveawaybot/settings.json
+        mkdir myBot/discord-giveawaybot
+        
+   This is where the bot writes its own volatile files.
 
-4. In the root of this Github project you'll find exampleSettings.json, copy its contents to your settings file, and
-replace "ADD YOUR BOT TOKEN HERE" with the Discord bot token you copied in "Create your bot on Discord first" above. Remember to use the token,
-not the client id.
+3. In the *work folder*, create a settings file. If you're on Linux, you can use 
 
-Getting the bot code ...
+        touch myBot/discord-giveawaybot/settings.json
+        
+    The bot will write to this file too.
+    
+4. In the root of this Github project you'll find exampleSettings.json, copy its contents to the settings file from
+the step above, and replace "ADD YOUR BOT TOKEN HERE" with the Discord bot token you copied in 
+"Create your bot on Discord first" above. Remember to use the token, not the client id.
+
+
+## Getting the bot code 
+
+You can get the bot code in three different ways. 
 
 ### 1) From Docker image
 
-This is the recommended method because it's easiest to set up and keep up after that. Create a docker-compose.yml file in
+This is the recommended method because it's easiest to setup and update. Create a docker-compose.yml file in
 your bot root folder and add the following to it
 
-        version: "2"
-        services:
-          node:
-            container_name: discordgiveawaybot
-            image: shukriadams/discord-giveawaybot:latest
-            restart: unless-stopped
-            command: npm start
-            volumes:
-            - ./discord-giveawaybot/:/usr/giveawaybot/discord-giveawaybot/:rw
+    version: "2"
+    services:
+      node:
+        container_name: discordgiveawaybot
+        image: shukriadams/discord-giveawaybot:latest
+        restart: unless-stopped
+        command: npm start
+        volumes:
+        - ./discord-giveawaybot/:/usr/giveawaybot/discord-giveawaybot/:rw
 
 In the root folder run
 
-        docker-compose up -d
+    docker-compose up -d
 
-These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required. All
-volatile content is in ./discord-giveawaybot, back this up if desired, your container is disposable. For reference, the
-container image is at https://hub.docker.com/r/shukriadams/discord-giveawaybot.
+These settings can of course be tweaked to suite your host setup, only npm start and the volume map are required. Bot 
+state is in ./discord-giveawaybot, back this up if desired.
 
 ### 2) From NPM
 
@@ -114,7 +127,7 @@ You can also set the bot up as a service
     Group=YOURGROUP
     Environment=NODE_ENV=production
 
-You can use whatever you're most comfortable with, just as long as you handle exits, as the bot _will_ exit 
+You can use whatever you prefer, just as long as you handle exits, as the bot _will_ exit 
 periodically.
 
 ## Add your bot to your Discord server
@@ -129,12 +142,6 @@ After doing this you should see your bot as a user on your server.
 - Your bot needs to know which channel you'll be broadcasting giveaways in. Go to the channel you want to use and write
 "@BOTNAME channel" where BOTNAME is whatever name you gave your bot.
 - That's it, you're set to go.
-
-## Known issues
-
-The bot can handle a maximum of 100 participants per giveaway. Anyone above that 100 will be ignored - this is a
-limitation in Discord's API, and will be fixed when Discord fixes their API. As a workaround, a giveaway will
-automatically end when it reaches 100 participants.
 
 ## Additional config
 
@@ -237,6 +244,35 @@ This command is currently disabled.
 The bot automatically cleans out completed/cancelled competitions after 14 days.
 
 Get participate emoji characters at http://emojipedia.org
+
+## Known issues
+
+- The bot can handle a maximum of 100 participants per giveaway. Anyone above that 100 will be ignored - this is a
+limitation in Discord's API, and will be fixed when Discord fixes their API. As a workaround, a giveaway will
+automatically end when it reaches 100 participants.
+
+- The bot can lose giveaways on Windows systems after a system crash or reset. The exact cause isn't known but is 
+assumed to be Windows system restore.  
+
+
+## Monitoring
+
+If you expose your bot process to HTTP traffic, it will reply to /status queries with an integer indicating how 
+responsive/overloaded the daemon is. A healthy bot should return 0, if this number is greater than 0 your bot is in 
+trouble.    
+
+HTTP traffic is disabled by default, to enable it add the following to settings.json
+
+    "enableHealthMonitor" : true
+
+The default port the bot listens on is 8080, set some other port with 
+
+    "healthMonitorPort" : 3000
+
+So using the settings above and assuming your bot is hosted at https://mybot.example.com, the status call would be
+
+    https://mybot.example.com:3000/status
+   
 
 ## Development
 

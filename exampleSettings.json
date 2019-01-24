@@ -5,6 +5,8 @@
   "bracketsCurrencyZone": "us",
   "daemonInterval" : "*/10 * * * * *",
   "maxConcurrentGiveaways" : 5,
+  "enableHealthMonitor" : false,
+  "healthMonitorPort" : 8080,
   "winningCooldownDays" : 3
 
 }
