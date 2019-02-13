@@ -284,6 +284,8 @@ So using the settings above and assuming your bot is hosted at https://mybot.exa
 
 ## Development
 
+See the setup procedure for standard deployment above to get your dev bot running - you'll need to create a /discord-giveawaybot work folder and settings.json file in that, get a valid discord bot user access token etc.
+
 The bot is basically two processes
 
 - a message handler that receives message instructions from Discord users and responds to them immediately.
