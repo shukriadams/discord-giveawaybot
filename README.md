@@ -12,8 +12,9 @@ original with :
 - anti-greed features automatically prevents a winner from entering another giveaway for a while
 - better Steam integration
 
-A demo version can be seen on Discord: https://discord.gg/gMEGQBj (Bot is limited to non-admin functions, I can't
-auto-assign admin rights to users. I'm not active on this Discord channel, it's for demo purposes, if you need help or
+A demo version can be seen on Discord: https://discord.gg/gMEGQBj (UPDATE : Discord API changes keep revoking bot API keys, bot is offline until further notice)
+
+(Bot is limited to non-admin functions, I can't auto-assign admin rights to users. I'm not active on this Discord channel, it's for demo purposes, if you need help or
 found a bug, please use Github).
 
 ## Requirements
