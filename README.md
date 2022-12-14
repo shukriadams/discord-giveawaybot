@@ -1,4 +1,4 @@
-# discord-giveawaybot
+# discord-giveawaybot (NO LONGER UNDER ACTIVE DEVELOPMENT)
 
 [![Build Status](https://travis-ci.org/shukriadams/discord-giveawaybot.svg?branch=master)](https://travis-ci.org/shukriadams/discord-giveawaybot)
 
